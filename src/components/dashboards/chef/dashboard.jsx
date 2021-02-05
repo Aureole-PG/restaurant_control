@@ -8,15 +8,15 @@ const client=[
     {
         path:'',
         exact:true,
-        component: lazy(()=>import('../../../views/client/tables'))
+        component: lazy(()=>import('../../../views/chef/dishes'))
     },
     {
-        path:'dishes',
-        component: lazy(()=>import('../../../views/client/dishes'))
+        path:'charge',
+        component: lazy(()=>import('../../../views/waiters/charge'))
     },
     {
-        path:'order',
-        component: lazy(()=>import('../../../views/client/order'))
+        path:'daily',
+        component: lazy(()=>import('../../../views/waiters/daily'))
     },
 ]
 

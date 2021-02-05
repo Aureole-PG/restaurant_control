@@ -1,9 +1,11 @@
 import React,{useState,useEffect} from 'react'
 import {ItemCard} from '../../../components/cards/Cards'
-import {Row, Col} from 'reactstrap'
+import {Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
 import {PrimaryBtn, SecondaryBtn} from '../../../components/Buttons/Buttons'
 import {StikyContent, RowResponsive, MenuContent} from './styles'
-const mock=[
+import { TiDelete } from "react-icons/ti";
+function mock(){
+    return[
     {
         
         id: "1242843294324",
@@ -58,7 +60,7 @@ const mock=[
     }
 
 ]
-
+}
 
 
 
@@ -67,8 +69,18 @@ const mock=[
 export default function Dishes() {
     const [userSelected, setUserSelected] = useState([])
     const [updateList, setUpdateList] = useState(false)
-    const [menu, setMenu] = useState(mock)
+    const [total, setTotal] = useState(0)
+    const [menu, setMenu] = useState(mock())
+    const [modal, setModal] = useState(false);
 
+    const toggle = () => {  
+        let acumulator = 0
+        userSelected.forEach(e=>{
+            acumulator += e.precio 
+        })
+        setTotal(acumulator)
+        setModal(!modal)
+    }
     const selectItem=(data)=>{
         let selected = userSelected
         const found = selected.find(element => element.id === data.id);
@@ -79,24 +91,24 @@ export default function Dishes() {
                     plato.precio = data.precio*plato.cantidad 
                 }
                 return plato
-            })
-            console.log(new_data)
+            },[])
             setUserSelected(new_data)
         }else{
             data['cantidad']=1
             selected.push(data)
             setUserSelected(selected)
         }
-        
-        console.log(selected)
-        console.log("mock")
-        console.log(menu)
-        console.log("_________________")
-        setUpdateList(true)    
+        setUpdateList(true) 
+    }
+
+    const deleteItem =(id)=>{
+        let item = userSelected.filter(plato => plato.id !== id);
+        setUserSelected(item)
     }
 
     useEffect(() => {
         setUpdateList(false)
+        setMenu(mock())
     }, [updateList])
 
     return (
@@ -119,6 +131,7 @@ export default function Dishes() {
                                                 <h5>{plato.nombr}</h5>
                                                 <h2>{plato.cantidad}</h2>
                                                 <h3>$ {plato.precio}</h3>
+                                                <TiDelete style={{cursor: 'pointer'}} onClick={()=>deleteItem(plato.id)} size={30}/>
                                             </div>
                                         </ItemCard>
                                     </Col>
@@ -133,8 +146,8 @@ export default function Dishes() {
                         <Row>
                             <Col >
                                 <div className="d-flex justify-content-center">
-                                    <PrimaryBtn>
-                                        <h4 style={{margin: 0}}>Ordenar</h4>
+                                    <PrimaryBtn onClick={toggle}>
+                                        <h4 style={{margin: 0}}> Ordenar </h4>
                                     </PrimaryBtn>    
                                 </div>
                             </Col>
@@ -173,6 +186,32 @@ export default function Dishes() {
                     </Row>
                 </Col>
             </Row>
+
+            <div>
+                
+                <Modal isOpen={modal} toggle={toggle} >
+                    <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+                    <ModalBody>
+                        {userSelected.map((plato)=>(
+                                <Col key = {plato.id} style={{marginBlock: '5px'}} xs={12}>
+                                    <div className="d-flex w-100 justify-content-between align-items-center">
+                                        <h6>{plato.nombr}</h6>
+                                        <h5>$ {plato.precio}</h5>
+                                    </div>
+                                </Col>
+                            ))
+                        }
+                        <div className="d-flex w-100 justify-content-between align-items-center">
+                            <h6>Total:</h6>
+                            <h5>$ {total}</h5>
+                        </div>
+                    </ModalBody>
+                    <ModalFooter>
+                    <Button color="primary" disabled={userSelected.length===0?true: false} onClick={toggle}>Ordenar</Button>{' '}
+                    <Button color="secondary" onClick={toggle}>Cancelar</Button>
+                    </ModalFooter>
+                </Modal>
+            </div>
         </>
     )
 }

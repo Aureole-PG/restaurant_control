@@ -1,9 +1,9 @@
 import React from 'react'
 import {BtnPrimary,BtnSecodary} from './style'
-export function PrimaryBtn({children}) {
+export function PrimaryBtn(props) {
     return (
-        <BtnPrimary>
-            {children}
+        <BtnPrimary {...props}>
+            {props.children}
         </BtnPrimary>
     )
 }
