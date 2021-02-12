@@ -1,18 +1,15 @@
-import Routers from './routers'
-import image from './images/background.jpg'
+import Routers from './routers';
+import { Body} from './style';
+import {Provider} from 'react-redux';
+import Store from './redux/store'
 function App() {
   return (
-    <div style={{
-      backgroundImage: "url(" + image + ")",
-      backgroundPosition: 'center',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      width: '100vw',
-      height: '100vh',
-      overflowY: 'scroll' 
-    }}>
-        <Routers/>
-    </div>
+    <Provider store={Store}>
+        <Body className="scroll">
+          <Routers/>
+        </Body>
+    </Provider>
+    
   );
 }
 

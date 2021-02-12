@@ -1,5 +1,5 @@
 import React from 'react'
-import {ItemC, ButtonCard} from './style'
+import {ItemC, ButtonCard, SCard} from './style'
 export function ItemCard(props) {
     return (
         <ItemC {...props}>
@@ -13,5 +13,13 @@ export function BtnCard(props) {
         <ButtonCard disabled={props.disabled} {...props}>
             {props.children}
         </ButtonCard>
+    )
+}
+
+export function SimpleCard (props){
+    return(
+        <SCard {...props}>
+            {props.children}
+        </SCard>
     )
 }

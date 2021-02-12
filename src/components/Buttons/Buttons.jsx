@@ -1,5 +1,5 @@
 import React from 'react'
-import {BtnPrimary,BtnSecodary} from './style'
+import {BtnPrimary,BtnSecodary, BtnWaring} from './style'
 export function PrimaryBtn(props) {
     return (
         <BtnPrimary {...props}>
@@ -14,5 +14,13 @@ export function SecondaryBtn(props){
         <BtnSecodary {...props}>
             {props.children}
         </BtnSecodary>
+    )
+}
+
+export function WaringBtn(props){
+    return(
+        <BtnWaring {...props}>
+            {props.children}
+        </BtnWaring>
     )
 }
