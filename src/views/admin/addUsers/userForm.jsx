@@ -1,7 +1,7 @@
 import React from 'react'
 import {ItemCard} from '../../../components/cards/Cards'
-import { Form, FormGroup, Label, Input, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
-import {SecondaryBtn, PrimaryBtn, WaringBtn} from '../../../components/Buttons/Buttons'
+import { Form, FormGroup, Label, Input, Row, Col} from 'reactstrap';
+import {PrimaryBtn} from '../../../components/Buttons/Buttons'
 export default function userForm() {
     return (
         <ItemCard style= {{marginTop: '15px'}}>

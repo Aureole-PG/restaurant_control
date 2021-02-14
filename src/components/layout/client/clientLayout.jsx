@@ -13,16 +13,15 @@ import {
     DropdownItem,
     Container
   } from 'reactstrap';
-import {Link , useHistory}  from 'react-router-dom';
+import {Link }  from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {authActions} from '../../../redux/actions';
 export default function ClientLayout({children}) {
   const [isOpen, setIsOpen] = useState(false);
   const dispach = useDispatch();
-  const history = useHistory()
   const singOut =()=>{
     dispach({type: authActions.LOGOUT})
-    history.push('/')
+    window.location.reload(false);
   } 
   const toggle = () => setIsOpen(!isOpen);
     return (

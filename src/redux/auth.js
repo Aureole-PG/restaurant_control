@@ -1,6 +1,5 @@
 import {authActions} from './actions';
 import {userData,deleteToken,saveToken} from '../utils/tokenFunctions';
-import {useHistory} from 'react-router-dom';
 
 let initialState = {
     token: null,

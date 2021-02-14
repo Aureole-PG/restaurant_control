@@ -11,6 +11,8 @@ export default function Orders() {
     const selector = useSelector(state=> state.orderReducer);
     const history = useHistory();
     const [allData, setAllData]= useState({});
+
+    const goTooBack =()=>history.push('/dashboard')
     useEffect(() => {
         Api.get(`/api/pedido/reserva/${selector.reserve}`).then(e=>{
             let order= e.data.data
@@ -20,7 +22,7 @@ export default function Orders() {
             }
         })
         .catch(()=>{
-            history.push('/dashboard')
+            goTooBack()
         })
     }, [])
 

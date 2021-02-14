@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row, Col, Progress, Card} from 'reactstrap'
+import {Row, Col, Progress} from 'reactstrap'
 import {ItemCard } from '../../../components/cards/Cards'
 export default function Daily() {
     return (

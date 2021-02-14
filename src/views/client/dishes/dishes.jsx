@@ -14,7 +14,6 @@ export default function Dishes() {
     const [userSelected, setUserSelected] = useState([]);
     const [total, setTotal] = useState(0);
     const [menu, setMenu] = useState([]);
-    const [error, setError] = useState(false);
     const [loading, setLoadig] = useState(false)
     const [modal, setModal] = useState(false);
     const [access, setAccess] = useState(true)
@@ -42,7 +41,7 @@ export default function Dishes() {
     const submit_order = () => {
         setLoadig(true)
         submit(reserveID,userSelected,total).then(e=>{
-            console.log(e)
+           
             dispatch({type: OrderActions.SET_ORDER, payload: e.stado})
             
             history.push('/dashboard/order')
@@ -58,11 +57,9 @@ export default function Dishes() {
         initialData().then(e=>{
             setAccess(e.pageAccess)
             setMenu(e.menu)
-            dispatch({type: OrderActions.GET_TABLE, payload: { num: e.mesa.numero, reserve: e.reserva._id}})
             setLoadig(false)
         })
         .catch(e=>{
-            setError(true)
             setLoadig(false)
         })
     }, [])
