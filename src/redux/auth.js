@@ -1,6 +1,6 @@
 import {authActions} from './actions';
-import {userData,deleteToken,saveToken} from '../utils/tokenFunctions'
-
+import {userData,deleteToken,saveToken} from '../utils/tokenFunctions';
+import {useHistory} from 'react-router-dom';
 
 let initialState = {
     token: null,
@@ -8,12 +8,12 @@ let initialState = {
     correo: null,
     rol: null,
     id: null
-}
+};
 
-let token = localStorage.getItem('token')
+let token = localStorage.getItem('token');
 if (token) {
     initialState = userData(token)
-}
+};
 
 export default function authReducer (state= initialState, action){
     switch (action.type) {
@@ -29,6 +29,7 @@ export default function authReducer (state= initialState, action){
             
         case authActions.LOGOUT:
             deleteToken()
+
             return initialState
         default :
             return state;

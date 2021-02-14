@@ -1,18 +1,26 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import {
     Container , Row, Col, Form, 
     FormGroup, Label, Input, UncontrolledAlert
 } from 'reactstrap';
 import {SimpleCard} from '../../components/cards/Cards';
 import {PrimaryBtn, SecondaryBtn} from '../../components/Buttons/Buttons';
-import {useHistory} from 'react-router-dom';
+import {useHistory, Redirect, useLocation} from 'react-router-dom';
 import  {useFormik} from 'formik';
+import {useDispatch, useSelector} from 'react-redux';
+import Loading from '../../components/animations/loading';
+import {authActions} from '../../redux/actions';
+import jwt from 'jsonwebtoken';
 import * as yup  from 'yup';
 import Api from '../../utils/api';
 export default function Singin() {
     const history = useHistory();
-    const [loading, setLoading] =useState(false)
-    const [error, setError]= useState(false)
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const isLoggedIn = useSelector((state)=>state.authReducer.token);
+    const [loading, setLoading] =useState(false);
+    const [error, setError]= useState(false);
+    const [redirectTo, setRedirectTo] = useState(false)
     const back = () => history.goBack();
     const formik = useFormik({
         initialValues: InitialValues(),
@@ -22,9 +30,8 @@ export default function Singin() {
                 nombre: form.nombre,
                 correo: form.correo,
                 password: form.password,
-                rol: 'Cliente'
+                rol: 'cliente'
             }
-            console.log(data)
             submit(data)
         }
     });
@@ -32,14 +39,40 @@ export default function Singin() {
         setLoading(true)
         Api.post('api/usuario',data)
         .then(e=>{
-            console.log(e.data)
-
+            Api.post('api/usuario/login',{correo: data.correo, password: data.password})
+            .then(response=>{
+                let userData= {
+                    ...jwt.decode(response.data.token).usuario,
+                    token: response.data.token
+                }
+                dispatch({type: authActions.LOGIN_SUCCESS, payload: userData})
+            })
+            .catch((e)=>{
+                setError(true)
+                setLoading(false)
+            })
         })
         .catch((e)=>{
             setError(true)
-            console.log(e)
             setLoading(false)
         })
+    }
+
+
+    useEffect(()=>{
+        if (isLoggedIn) {
+            setRedirectTo(true)
+        }
+    },[isLoggedIn])
+    let {from} = location.state || {from: {pathname:'/dashboard'}}
+    if(redirectTo){
+        return <Redirect to={from}/>
+    }
+
+    if (loading) {
+        return(
+            <Loading/>
+        )
     }
 
     return (

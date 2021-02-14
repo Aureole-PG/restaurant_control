@@ -27,19 +27,6 @@ export const RowResponsive= styled.div`
     padding-block: 10px;
     margin-bottom: 20px;
     border-radius: 10px;
-    ::-webkit-scrollbar {
-        width: 10px;
-    }
-
-    ::-webkit-scrollbar-track{
-        box-shadow: inset 0 0 5px grey; 
-        border-radius: 5px;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-        background: #b5b5b599; 
-        border-radius: 5px;
-    }
     ::after, ::before{
         box-sizing: border-box;
     }
@@ -54,20 +41,7 @@ export const RowResponsive= styled.div`
 `;
 
 export const MenuContent= styled.div`
-    max-height: 170px;
+    height: 150px;
     overflow-y: scroll;
     padding-block: 10px;
-    &::-webkit-scrollbar {
-         width: 10px;
-    };
-
-    &::-webkit-scrollbar-track{
-        box-shadow: inset 0 0 5px grey; 
-        border-radius: 5px;
-    };
-    
-    &::-webkit-scrollbar-thumb {
-        background: #b5b5b599; 
-        border-radius: 5px;
-    };
 `; 

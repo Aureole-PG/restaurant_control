@@ -10,13 +10,14 @@ import {useHistory, Redirect, useLocation} from 'react-router-dom';
 import  {useFormik} from 'formik';
 import * as yup  from 'yup';
 import Api from '../../utils/api';
-import {connect,useDispatch, useSelector} from 'react-redux'
-import {authActions} from '../../redux/actions'
-import jwt from 'jsonwebtoken'
+import {connect,useDispatch, useSelector} from 'react-redux';
+import {authActions} from '../../redux/actions';
+import jwt from 'jsonwebtoken';
+import Loading from '../../components/animations/loading';
 const Login = () => {
-    const location = useLocation()
-    const isLoggedIn = useSelector((state)=>state.authReducer.token)
-    const [redirectTo, setRedirectTo] = useState(false)
+    const location = useLocation();
+    const isLoggedIn = useSelector((state)=>state.authReducer.token);
+    const [redirectTo, setRedirectTo] = useState(false);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
     const history = useHistory();
@@ -26,24 +27,21 @@ const Login = () => {
         initialValues: InitialValues(),
         validationSchema: yup.object(validationSchema()),
         onSubmit: (form)=>{
-            console.log(form)
             submit(form)
         }
     });
     const submit =(data)=>{
-        // setLoading(true)
+        setLoading(true)
         Api.post('api/usuario/login',data)
         .then(e=>{
             let userData= {
                 ...jwt.decode(e.data.token).usuario,
                 token: e.data.token
             }
-            console.log(userData)
             dispach({type: authActions.LOGIN_SUCCESS, payload: userData})
         })
         .catch((e)=>{
             setError(true)
-            console.log(e)
             setLoading(false)
         })
     }
@@ -55,6 +53,9 @@ const Login = () => {
     let {from} = location.state || {from: {pathname:'/dashboard'}}
     if(redirectTo){
         return <Redirect to={from}/>
+    }
+    if (loading) {
+        return <Loading/>
     }
 
     return (
