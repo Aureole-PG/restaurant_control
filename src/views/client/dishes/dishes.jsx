@@ -23,7 +23,7 @@ export default function Dishes() {
     const toggle = () => {  
         let acumulator = 0
         userSelected.forEach(e=>{
-            acumulator += e.precio
+            acumulator += e.total
         })
         setTotal(acumulator)
         setModal(!modal)

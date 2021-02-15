@@ -1,6 +1,6 @@
 import React, {lazy, Suspense} from 'react';
 import {Route, Switch, useRouteMatch} from 'react-router-dom';
-import Layout from '../../layout/client';
+import Layout from '../../layout/admin';
 
 const client=[
     {
