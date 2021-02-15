@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import BtnCard from '../../../components/cards/BtnCard';
+import {BtnCard} from '../../../components/cards/Cards';
 import {Row, Col} from 'reactstrap';
 import {CenterText, H2}from './style';
 import {useHistory} from 'react-router-dom';

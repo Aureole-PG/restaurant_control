@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {ItemCard} from '../../../components/cards/Cards';
-import { Form, FormGroup, Label, Input, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, UncontrolledAlert } from 'reactstrap';
 import {SecondaryBtn, PrimaryBtn, WaringBtn} from '../../../components/Buttons/Buttons';
 import {formInitData, addDish, AddItems, createMenu} from './api_request';
 import * as yup from 'yup';
@@ -20,7 +20,7 @@ export default function AddMenuForm() {
         onSubmit: (form)=>{
             createMenu(form, menuDishes)
             .then(e=>{
-                history.push("/dashboard/menu")
+                history.replace("/dashboard/menu")
             }).catch((e)=>{
                 console.log(e)
             })
@@ -69,6 +69,9 @@ export default function AddMenuForm() {
     return (
         <>
         <ItemCard style= {{marginTop: '15px'}}>
+            <UncontrolledAlert color="warning" isOpen={error} toggle={()=>setError(false)}>
+                Ocurrio un error intentalo nuevamente
+            </UncontrolledAlert>
             <Form onSubmit={menuFormik.handleSubmit}>
                 <Row>
                     <Col>
