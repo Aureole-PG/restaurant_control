@@ -57,7 +57,7 @@ export default function Tables() {
                                     ))}
                                     
                                 </CardText>
-                                <CardText>Hora de pedido: <b>{order.reserva.fecha}</b></CardText>
+                                {/* <CardText>Hora de pedido: <b>{order.reserva.fecha}</b></CardText> */}
                             </div>
                             <SecondaryBtn onClick={()=>deliver(order)}>
                                 Entregar  

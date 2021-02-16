@@ -63,7 +63,7 @@ export default function Dishes() {
                                         ))}
                                     </ul>
                                 </div>
-                                <CardText>Tiempo de espera: <b>00:05</b></CardText>
+                                {/* <CardText>Tiempo de espera: <b>00:05</b></CardText> */}
                                 <SecondaryBtn style={{fontSize: '30px', width: '100%'}} onClick={submit}>
                                     Entregar 
                                 </SecondaryBtn>
