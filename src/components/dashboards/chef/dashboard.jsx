@@ -1,7 +1,7 @@
 import React, {lazy, Suspense} from 'react';
 import {Route, Switch, useRouteMatch} from 'react-router-dom';
 // import Tables from '../../../views/client/tables'
-import Layout from '../../layout/client'
+import Layout from '../../layout/chef'
 // import Dishes from '../../../views/client/dishes'
 
 const client=[
@@ -9,15 +9,7 @@ const client=[
         path:'',
         exact:true,
         component: lazy(()=>import('../../../views/chef/dishes'))
-    },
-    {
-        path:'charge',
-        component: lazy(()=>import('../../../views/waiters/charge'))
-    },
-    {
-        path:'daily',
-        component: lazy(()=>import('../../../views/waiters/daily'))
-    },
+    }
 ]
 
 

@@ -65,6 +65,12 @@ export default function Tables() {
                         </ItemCard>
                     </Col>
                 ))}
+                {!orders.length>0?(
+                    <Col>
+                        <h1>Sin mesas por despachar </h1>
+                    </Col>
+                    
+                ):null}
                 <DeliverModal submit={submit} data={deliveData} modal={modal} toggle={toggle}/>
             </Row>
         </>

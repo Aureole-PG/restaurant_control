@@ -32,11 +32,11 @@ export default function Layout({children}) {
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar>
               <NavItem>
-                <NavLink tag={Link} to="/dashboard/menu">Menu</NavLink>
+                <NavLink tag={Link} to="/dashboard">Pedidos</NavLink>
               </NavItem>
-              <NavItem>
+              {/* <NavItem>
                 <NavLink tag={Link} to="/dashboard/users">Usuarios</NavLink>
-              </NavItem>
+              </NavItem> */}
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                   Opciones

@@ -1,43 +1,80 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {Col, Row, CardTitle,CardSubtitle,CardText} from 'reactstrap';
 import {SecondaryBtn, WaringBtn} from '../../../components/Buttons/Buttons';
-import {ItemCard} from '../../../components/cards/Cards'
-export default function dishes() {
+import {ItemCard} from '../../../components/cards/Cards';
+import Api from '../../../utils/ClientApi';
+import Loading from '../../../components/animations/loading'
+export default function Dishes() {
+    const [loading, setLoading] = useState(false);
+    const [menus, setMenus] = useState([]);
+    const [orders, setOrders] = useState([]);
+    const [prepareDish, setPrepareDish] = useState(null);
+    const submit = () =>{
+        Api.put(`/api/reserva/${prepareDish.reserva._id}`, {estado: 'preparado'}).then(()=>{
+            setPrepareDish(null);
+            setLoading(true)
+        })
+    }
+    useEffect(()=>{
+        Api.get('/api/pedido').then(e=>{
+            
+            let data = e.data.data.filter(order=> order.reserva.estado === "pedido")
+            let currentDish=data[0]
+            if (currentDish) {
+                currentDish['numPlatos'] = currentDish.pedidos.reduce((anterior, actual)=> {
+                    return  anterior.cantidad + actual.cantidad
+                }) 
+            }
+            setLoading(false)
+            setOrders(data)
+            setPrepareDish(currentDish)
+        },[])
+    },[loading])
+    useEffect(()=>{
+        Api.get('/api/menu').then(e=>{
+            setMenus(e.data.data);
+        })
+    },[])
+    if (loading) {
+        return <Loading/>
+    }
+
     return (
         <>
             <Row style={{marginTop: '10px'}}>
                 <Col xs = {12} lg={8}>
                     <ItemCard className='d-flex justify-content-center align-items-center scroll' style={{height: '60vh', overflowY: 'scroll'}}>
-                        <div style={{padding: '20px'}}>
-                            <CardTitle tag="h5">Mesa 1</CardTitle>
-                            <CardSubtitle tag="h5" className="mb-2 text-muted">Numero de platos : <b>4</b></CardSubtitle>
-                            <CardText>
-                                <ul className="list-group">
-                                    <li className="list-group-item" style={{backgroundColor: '#fff0'}}>
-                                        <div class="d-flex justify-content-between">
-                                            
-                                            <b>2</b> 
-                                            <div>
-                                                Almuerzo
-                                            </div> 
-                                        </div>
-                                    </li>
-                                    <li className="list-group-item" style={{backgroundColor: '#fff0'}}>
-                                        <div class="d-flex justify-content-between">
-                                            
-                                            <b>2</b> 
-                                            <div>
-                                                Desayunos
-                                            </div> 
-                                        </div>
-                                    </li>
-                                </ul>
-                            </CardText>
-                            <CardText>Tiempo de espera: <b>00:05</b></CardText>
-                            <SecondaryBtn style={{fontSize: '30px', width: '100%'}}>
-                                Entregar 
-                            </SecondaryBtn>
-                        </div>
+                        {prepareDish?(
+                            <div style={{padding: '20px'}}>
+                                <CardTitle tag="h5">Mesa {prepareDish.reserva.mesa.numero}</CardTitle>
+                                <CardSubtitle tag="h5" className="mb-2 text-muted">Numero de platos : <b>{prepareDish.numPlatos.cantidad}</b></CardSubtitle>
+                                <div>
+                                    <ul className="list-group">
+                                        {prepareDish.pedidos.map(e=>(
+                                            <li key={e._id} className="list-group-item" style={{backgroundColor: '#fff0'}}>
+                                                <div className="d-flex justify-content-between">
+                                                    
+                                                    <b>{e.cantidad}</b> 
+                                                    <div>
+                                                        {e.menu.nombre}
+                                                    </div> 
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <CardText>Tiempo de espera: <b>00:05</b></CardText>
+                                <SecondaryBtn style={{fontSize: '30px', width: '100%'}} onClick={submit}>
+                                    Entregar 
+                                </SecondaryBtn>
+                            </div>
+                        ):(
+                            <h1>No hay platos por preparar</h1>
+                        )
+
+
+                        }
+                        
 
                         
                     </ItemCard>
@@ -48,64 +85,30 @@ export default function dishes() {
                             <h5>Numero de platos pedidos</h5>
                         </div>
                         <ul className="list-group">
-                            <li className="list-group-item" style={{backgroundColor: '#fff0'}}>
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        Almuerzo
-                                    </div>
-                                    <span class="badge bg-primary "><b style={{color: 'white'}}>2</b></span> 
+                            {orders.map(order=>(
+                                <div key={order._id}>
+                                    <p> mesa {order.reserva.mesa.numero}</p>
+                                    {
+                                        order.pedidos.map(pedido=>(
+                                            <li key={pedido._id} className="list-group-item">
+                                                
+                                                <div className="d-flex justify-content-between">
+                                                    <div>
+                                                        {pedido.menu.nombre}
+                                                    </div>
+                                                    <div>
+                                                        <b>{pedido.cantidad}</b>
+                                                    </div>  
+                                                </div>
+                                            </li>
+                                        ))
+                                    }
+                                    
                                 </div>
-                            </li>
-                            <li className="list-group-item">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        Almuerzo
-                                    </div>
-                                    <div>
-                                        <b>4</b>
-                                    </div>  
-                                </div>
-                            </li>
-                            <li className="list-group-item">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        Almuerzo
-                                    </div>
-                                    <div>
-                                        <b>4</b>
-                                    </div>  
-                                </div>
-                            </li>
-                            <li className="list-group-item">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        Almuerzo
-                                    </div>
-                                    <div>
-                                        <b>4</b>
-                                    </div>  
-                                </div>
-                            </li>
-                            <li className="list-group-item">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        Almuerzo
-                                    </div>
-                                    <div>
-                                        <b>4</b>
-                                    </div>  
-                                </div>
-                            </li>
-                            <li className="list-group-item">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        Almuerzo
-                                    </div>
-                                    <div>
-                                        <b>4</b>
-                                    </div>  
-                                </div>
-                            </li>
+                                
+                               
+                            ))}
+                           
                         </ul>
                         
                         
@@ -116,54 +119,22 @@ export default function dishes() {
                 <h4>Menu</h4>
             </Row>
             <Row style={{marginTop: '10px'}}>
-                <Col>
-                    <ItemCard>
-                        <CardTitle tag="h6">Almuerzo</CardTitle>
-                        <CardText>
-                            <ul className="list-group">
-                                <li className="list-group-item" style={{backgroundColor: '#fff0'}}>
-                                    Arroz con juegueteado
-                                </li>
-                                <li className="list-group-item" style={{backgroundColor: '#fff0'}}>
-                                    sopa
-                                </li>
-                            </ul>
-                        </CardText>
-                        <WaringBtn>
-                            Agotado   
-                        </WaringBtn>
-                    </ItemCard>
-                </Col>
-                <Col>
-                    <ItemCard>
-                        <CardTitle tag="h6">Almuerzo</CardTitle>
-                        <CardText>
-                            <ul className="list-group">
-                                <li className="list-group-item" style={{backgroundColor: '#fff0'}}>
-                                    Arroz con juegueteado
-                                </li>
-                                <li className="list-group-item" style={{backgroundColor: '#fff0'}}>
-                                    sopa
-                                </li>
-                            </ul>
-                        </CardText>
-                    </ItemCard>
-                </Col>
-                <Col>
-                    <ItemCard>
-                        <CardTitle tag="h6">Almuerzo</CardTitle>
-                        <CardText>
-                            <ul className="list-group">
-                                <li className="list-group-item" style={{backgroundColor: '#fff0'}}>
-                                    Arroz con juegueteado
-                                </li>
-                                <li className="list-group-item" style={{backgroundColor: '#fff0'}}>
-                                    sopa
-                                </li>
-                            </ul>
-                        </CardText>
-                    </ItemCard>
-                </Col>
+                {menus.map(data=>(
+                    <Col key={data._id}>
+                        <ItemCard>
+                            <CardTitle tag="h6">{data.nombre}</CardTitle>
+                            <div>
+                                <ul className="list-group">
+                                    {data.platos.map(plato=>(
+                                        <li key={plato._id} className="list-group-item" style={{backgroundColor: '#fff0'}}>
+                                            {plato.nombre}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </ItemCard>
+                    </Col>
+                ))}
                 
                 
             </Row>

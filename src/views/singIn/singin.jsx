@@ -99,7 +99,7 @@ export default function Singin() {
                             </FormGroup>
                             <FormGroup>
                                 <Label for="Password">Verificar Contraseña</Label>
-                                <Input type="password" invalid={formik.errors.password2?true:false} onChange={formik.handleChange} name="password2" id="Password" placeholder="Ingrese su contraseña otra vex" />
+                                <Input type="password" invalid={formik.errors.password2?true:false} onChange={formik.handleChange} name="password2" id="Password" placeholder="Ingrese su contraseña otra vez" />
                             </FormGroup>
                             <div className="d-flex justify-content-between align-items-center">
                                 <PrimaryBtn  disabled={loading} type='submit' >Registrase</PrimaryBtn>

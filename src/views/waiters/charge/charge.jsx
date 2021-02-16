@@ -49,14 +49,12 @@ export default function Charge() {
                             
                             <div className="scroll" style={{height:70}}>
                                 {order.pedidos.map(dishes=>(
-                                    // <li key={dishes._id} style={{listStyle: 'none'}}>
-                                        <div key={dishes._id} className="d-flex justify-content-between">
-                                            <div>
-                                                <b>{dishes.cantidad}</b> {dishes.menu.nombre} 
-                                            </div>
-                                            <b>${dishes.cantidad*dishes.menu.precio}</b>
+                                    <div key={dishes._id} className="d-flex justify-content-between">
+                                        <div>
+                                            <b>{dishes.cantidad}</b> {dishes.menu.nombre} 
                                         </div>
-                                    // </li>
+                                        <b>${dishes.cantidad*dishes.menu.precio}</b>
+                                    </div>
                                 ))}
                                 
                             </div>
@@ -68,6 +66,12 @@ export default function Charge() {
                     </ItemCard>
                 </Col>
             ))}
+            {!orders.length>0?(
+                <Col>
+                    <h1>Sin mesas por cobrar </h1>
+                </Col>
+                
+            ):null}
             <ChargeModal submit={submit} data={chargeData} modal={modal} toggle={toggle}/>
             </Row>
     )
