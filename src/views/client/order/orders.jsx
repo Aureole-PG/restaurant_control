@@ -5,36 +5,65 @@ import {SecondaryBtn} from '../../../components/Buttons/Buttons';
 import {ItemCard} from '../../../components/cards/Cards';
 import {MenuContent} from '../dishes/styles';
 import Api from '../../../utils/ClientApi';
+import {URL} from '../../../utils/api';
 import {useHistory} from 'react-router-dom';
+import {states} from '../../../utils/states';
+import io from 'socket.io-client';
+const connectSocketServer=()=>{
+    const socket = io(URL,{transports: ['websocket']});
+    return socket
+}
 export default function Orders() {
     const [pedido, setPedido] = useState([]);
     const selector = useSelector(state=> state.orderReducer);
     const history = useHistory();
     const [allData, setAllData]= useState({});
+    const [orderReady,  setOrderready] = useState(false);
+    const [socket ] = useState(connectSocketServer())
+    const goTooBack =()=>history.push('/dashboard');
 
-    const goTooBack =()=>history.push('/dashboard')
-    useEffect(() => {
+    const getData=()=>{
         Api.get(`/api/pedido/reserva/${selector.reserve}`).then(e=>{
             let order= e.data.data
             if (order.length>0) {
-                setPedido(order[order.length-1].pedidos)
-                setAllData(order[order.length-1])
+                setPedido(order[order.length-1].pedidos);
+                setAllData(order[order.length-1]);
+                if (order[order.length-1].reserva.estado===states.preparado) {
+                    setOrderready(true)
+                }
             }
         })
         .catch(()=>{
             goTooBack()
         })
-    }, [])
+    }
+    useEffect(() => {
+        socket.on('cocinero-mesero', (data) => {
+            getData()
+        });
+        
+    }, [allData])
 
+    useEffect(() => {
+        getData()
+    }, [])
 
     return (
         <>
             <Row>
-                <Col>
-                    <h3 className="text-center">Tu orden esta en Proseso</h3>
-                    <small className="text-center">Te notificaremos cuando tu orden este lista!</small>
-                </Col>
-
+                {orderReady?(
+                    <Col>
+                        <h3 className="text-center">Tu orden esta ya esta Lista!</h3>
+                        <small className="text-center">Estamos llevando tu plato al a mesa</small>
+                        
+                    </Col>
+                ):(
+                    <Col>
+                        <h3 className="text-center">Tu orden esta en Proceso</h3>
+                        <small className="text-center">Estamos llevando tu plato al a mesa</small>
+                    </Col>
+                )}
+               
             </Row>
             <Row>
                 <Col>

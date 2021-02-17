@@ -37,6 +37,9 @@ export default function Layout({children}) {
               <NavItem>
                 <NavLink tag={Link} to="/dashboard/users">Usuarios</NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink tag={Link} to="/dashboard/tables">Mesas</NavLink>
+              </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                   Opciones

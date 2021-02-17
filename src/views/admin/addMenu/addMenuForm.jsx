@@ -5,7 +5,7 @@ import {SecondaryBtn, PrimaryBtn, WaringBtn} from '../../../components/Buttons/B
 import {formInitData, addDish, AddItems, createMenu} from './api_request';
 import * as yup from 'yup';
 import {useFormik} from 'formik';
-import {useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom';
 export default function AddMenuForm() {
     const [modal, setModal] = useState(false);
     const [platos, setPlatos]= useState([]);
@@ -84,7 +84,7 @@ export default function AddMenuForm() {
                     <Col>
                         <FormGroup>
                             <Label for="precio">Precio</Label>
-                            <Input type="number" invalid={menuFormik.errors.precio?true:false} onChange={menuFormik.handleChange} name="precio" id="precio" placeholder="Precio"/>
+                            <Input type="number" step=".01" invalid={menuFormik.errors.precio?true:false} onChange={menuFormik.handleChange} name="precio" id="precio" placeholder="Precio"/>
                         </FormGroup>
                     </Col>
                 </Row>
@@ -92,7 +92,7 @@ export default function AddMenuForm() {
                     <Col>
                         <ListGroup>
                             {menuDishes.map(dish=>(
-                                <ListGroupItem style={{backgroundColor: '#fff0'}}>
+                                <ListGroupItem key={dish._id} style={{backgroundColor: '#fff0'}}>
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div>
                                         <ListGroupItemHeading>{dish.nombre}</ListGroupItemHeading>
@@ -111,7 +111,7 @@ export default function AddMenuForm() {
                 </Row>
                 <Row style={{marginBlock: '15px'}}>
                     <Col>
-                        <PrimaryBtn type="submit"  disabled={menuDishes.length>0||!loading?false: true}>Crear</PrimaryBtn>
+                        <PrimaryBtn type="submit"  disabled={menuDishes.length>0 && !loading?false: true}>Crear</PrimaryBtn>
                     </Col>
                 </Row>
             </Form>

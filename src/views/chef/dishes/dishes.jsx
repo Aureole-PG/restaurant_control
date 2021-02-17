@@ -3,38 +3,51 @@ import {Col, Row, CardTitle,CardSubtitle,CardText} from 'reactstrap';
 import {SecondaryBtn, WaringBtn} from '../../../components/Buttons/Buttons';
 import {ItemCard} from '../../../components/cards/Cards';
 import Api from '../../../utils/ClientApi';
-import Loading from '../../../components/animations/loading'
+import Loading from '../../../components/animations/loading';
+import {URL} from '../../../utils/api';
+import io from 'socket.io-client';
+const connectSocketServer=()=>{
+    const socket = io(URL,{transports: ['websocket']});
+    return socket
+}
+
 export default function Dishes() {
     const [loading, setLoading] = useState(false);
     const [menus, setMenus] = useState([]);
     const [orders, setOrders] = useState([]);
     const [prepareDish, setPrepareDish] = useState(null);
+    const [ socket ] = useState(connectSocketServer());
     const submit = () =>{
         Api.put(`/api/reserva/${prepareDish.reserva._id}`, {estado: 'preparado'}).then(()=>{
             setPrepareDish(null);
             setLoading(true)
+            socket.emit('cocinero-mesero');
         })
     }
-    useEffect(()=>{
+    const getPdidos=()=>{
         Api.get('/api/pedido').then(e=>{
             
             let data = e.data.data.filter(order=> order.reserva.estado === "pedido")
             let currentDish=data[0]
-            if (currentDish) {
-                currentDish['numPlatos'] = currentDish.pedidos.reduce((anterior, actual)=> {
-                    return  anterior.cantidad + actual.cantidad
-                }) 
-            }
             setLoading(false)
             setOrders(data)
             setPrepareDish(currentDish)
-        },[])
+        })
+    }
+    useEffect(()=>{
+        getPdidos()
     },[loading])
     useEffect(()=>{
         Api.get('/api/menu').then(e=>{
             setMenus(e.data.data);
         })
     },[])
+    useEffect(() => {
+        socket.on('cliente-cocinero', (data) => {
+            getPdidos()
+        });
+        
+    }, [orders])
     if (loading) {
         return <Loading/>
     }
@@ -47,7 +60,6 @@ export default function Dishes() {
                         {prepareDish?(
                             <div style={{padding: '20px'}}>
                                 <CardTitle tag="h5">Mesa {prepareDish.reserva.mesa.numero}</CardTitle>
-                                <CardSubtitle tag="h5" className="mb-2 text-muted">Numero de platos : <b>{prepareDish.numPlatos.cantidad}</b></CardSubtitle>
                                 <div>
                                     <ul className="list-group">
                                         {prepareDish.pedidos.map(e=>(
@@ -65,7 +77,7 @@ export default function Dishes() {
                                 </div>
                                 {/* <CardText>Tiempo de espera: <b>00:05</b></CardText> */}
                                 <SecondaryBtn style={{fontSize: '30px', width: '100%'}} onClick={submit}>
-                                    Entregar 
+                                    Plato preparado
                                 </SecondaryBtn>
                             </div>
                         ):(

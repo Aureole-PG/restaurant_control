@@ -17,7 +17,7 @@ export default function UserForm() {
             correo : "",
             password: "",
             rol: ""
-        })
+        });
     const [done, setDone] = useState(false);
     const goBack=()=> history.goBack();
     const formik = useFormik({

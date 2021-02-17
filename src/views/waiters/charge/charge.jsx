@@ -61,7 +61,7 @@ export default function Charge() {
                             <CardText>total: <b> $ {order.total}</b></CardText>
                         </div>
                         <SecondaryBtn onClick={()=>charge(order)}>
-                            Entregar  
+                            Cobrar  
                         </SecondaryBtn>
                     </ItemCard>
                 </Col>

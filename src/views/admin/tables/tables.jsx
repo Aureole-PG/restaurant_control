@@ -1,17 +1,17 @@
 import React,{useState, useEffect} from 'react';
 import {
-    Card, Table, CardText, CardBody,
+    Card, Table, CardText, CardBody,Badge,
     CardTitle
   } from 'reactstrap';
 import { WaringBtn, PrimaryBtn} from '../../../components/Buttons/Buttons'
 import Api from '../../../utils/ClientApi';
 import {useHistory} from 'react-router-dom';
-export default function AddMenu() {
-    const [menus, setMenus] = useState([]);
+export default function Tables() {
+    const [tables, setTables] = useState([]);
     const history = useHistory()
     const [loading, setLoading] = useState(false)
-    const createDishes=()=>{
-        history.push('/dashboard/menuForm')
+    const createTables=()=>{
+        history.push('/dashboard/tablesForm')
     }
     const deleteMenu = (id)=>{
         Api.delete(`/api/menu/${id}`).then(e=>{
@@ -20,21 +20,19 @@ export default function AddMenu() {
     }
     
     useEffect(() => {
-        Api.get('/api/menu').then(data=>{
-            setMenus(data.data.data)
+        Api.get('/api/mesa').then(data=>{
+            setTables(data.data.data)
             setLoading(false)
         })
         
     }, [loading])
-
-
     return (
         <div>
             <Card>
                 <CardBody>
                     <CardTitle tag="h5">Menu</CardTitle>
                     <CardText>Agrega o elimina</CardText>
-                    <PrimaryBtn onClick={createDishes}>
+                    <PrimaryBtn onClick={createTables}>
                         Agregar nuevo 
                     </PrimaryBtn>
                 </CardBody>
@@ -43,25 +41,30 @@ export default function AddMenu() {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Nombre</th>
-                                <th>Número de platos</th>
+                                <th>Numero de mesa</th>
+                                <th>Estado</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {menus.map((menu, index)=>(
-                                <tr key={menu._id}>
+                            {tables.map((table, index)=>(
+                                <tr key={table._id}>
                                     <th scope="row">{index +1}</th>
-                                    <td>{menu.nombre}</td>
-                                    <td>{menu.platos.length}</td>
+                                    <td> Mesa {table.numero}</td>
+                                    <td>{table.estado?(
+                                        <Badge color="success">Disponible</Badge>
+                                        
+                                    ):(
+                                        <Badge color="danger">Ocupado</Badge>
+                                    )}</td>
                                     <td>
                                         {/* <SecondaryBtn>
                                             Editar platos
                                         </SecondaryBtn> */}
                                         -
-                                        <WaringBtn onClick={()=>deleteMenu(menu._id)}>
-                                            Eliminar Menu
-                                        </WaringBtn>
+                                        {/* <WaringBtn onClick={()=>deleteMenu(menu._id)}>
+                                            Eliminar mesa
+                                        </WaringBtn> */}
                                     </td>
                                 </tr>
                             ))}
@@ -70,7 +73,6 @@ export default function AddMenu() {
                     </Table>
                 </CardBody>
             </Card>
-            
         </div>
     )
 }

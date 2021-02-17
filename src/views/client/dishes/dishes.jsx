@@ -7,19 +7,27 @@ import { TiDelete } from "react-icons/ti";
 import {useSelector, useDispatch} from 'react-redux';
 import {OrderActions} from '../../../redux/actions';
 import {submit, initialData, AddItems} from './api_request';
-import {useHistory} from 'react-router-dom'
-import {CenterText,H2} from '../tables/style'
-import Loading from '../../../components/animations/loading'
+import {useHistory} from 'react-router-dom';
+import {CenterText,H2} from '../tables/style';
+import Loading from '../../../components/animations/loading';
+import {URL} from '../../../utils/api';
+import io from 'socket.io-client';
+const connectSocketServer=()=>{
+    const socket = io(URL,{transports: ['websocket']});
+    return socket
+}
 export default function Dishes() {
     const [userSelected, setUserSelected] = useState([]);
     const [total, setTotal] = useState(0);
     const [menu, setMenu] = useState([]);
-    const [loading, setLoadig] = useState(false)
+    const [loading, setLoadig] = useState(false);
     const [modal, setModal] = useState(false);
-    const [access, setAccess] = useState(true)
-    const reserveID = useSelector(state=>state.orderReducer.reserve)
-    const history = useHistory()
-    const dispatch = useDispatch()
+    const [access, setAccess] = useState(true);
+    const [socket ] = useState(connectSocketServer());
+    const reserveID = useSelector(state=>state.orderReducer.reserve);
+    const history = useHistory();
+    const dispatch = useDispatch();
+    
     const toggle = () => {  
         let acumulator = 0
         userSelected.forEach(e=>{
@@ -41,7 +49,7 @@ export default function Dishes() {
     const submit_order = () => {
         setLoadig(true)
         submit(reserveID,userSelected,total).then(e=>{
-           
+            socket.emit('cliente-cocinero');
             dispatch({type: OrderActions.SET_ORDER, payload: e.stado})
             
             history.push('/dashboard/order')
@@ -51,7 +59,6 @@ export default function Dishes() {
         })
         
     }
-
     useEffect(() => {
         setLoadig(true)
         initialData().then(e=>{

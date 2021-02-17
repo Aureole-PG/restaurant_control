@@ -24,6 +24,14 @@ const client=[
         path:'usersForm',
         component: lazy(()=>import('../../../views/admin/addUsers/userForm'))
     },
+    {
+        path:'tables',
+        component: lazy(()=>import('../../../views/admin/tables'))
+    },
+    {
+        path:'tablesForm',
+        component: lazy(()=>import('../../../views/admin/tables/tablesForm'))
+    },
 ]
 
 

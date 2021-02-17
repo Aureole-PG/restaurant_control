@@ -4,11 +4,18 @@ import {ItemCard} from '../../../components/cards/Cards';
 import {SecondaryBtn, PrimaryBtn} from '../../../components/Buttons/Buttons';
 import Loading from '../../../components/animations/loading';
 import Api from '../../../utils/ClientApi';
+import {URL} from '../../../utils/api';
+import io from 'socket.io-client';
+const connectSocketServer=()=>{
+    const socket = io(URL,{transports: ['websocket']});
+    return socket
+}
 export default function Tables() {
     const [loading, setLoading] = useState(false);
     const [orders, setOrders] = useState([]);
     const [deliveData, setDeliveData] = useState(null);
     const [modal, setModal] = useState(false);
+    const [socket ] = useState(connectSocketServer());
     const toggle = () => setModal(!modal);
 
     const deliver=(data) =>{
@@ -25,15 +32,22 @@ export default function Tables() {
             setModal(false)
         })
     }
-    
-    useEffect(() => {
+    const getOrders=()=>{
         Api.get('/api/pedido').then(e=>{
             let data= e.data.data.filter( e=> e.reserva.estado ==="preparado" )
             setOrders(data)
             setLoading(false)
         })
+    }
+    
+    useEffect(() => {
+        getOrders()
     }, [loading])
-
+    useEffect(() => {
+        socket.on('cocinero-mesero', (data) => {
+            getOrders()
+        })
+    }, [orders])
 
 
 
@@ -49,7 +63,6 @@ export default function Tables() {
                         <ItemCard>
                             <div style={{padding: '20px'}}>
                                 <CardTitle tag="h5">Mesa {order.reserva.mesa.numero}</CardTitle>
-                                <CardSubtitle tag="h6" className="mb-2 text-muted">Numero de platos : <b>{order.pedidos.length}</b></CardSubtitle>
                                 
                                 <CardText className="scroll" style={{height:70}}>
                                     {order.pedidos.map(dishes=>(

@@ -4,4 +4,6 @@ const api = axios.create({
 
 })
 
+export const URL = "https://tesis-restaurant-api.herokuapp.com";
+
 export default api

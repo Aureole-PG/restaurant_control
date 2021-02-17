@@ -7,7 +7,8 @@ import Api from '../../../utils/ClientApi';
 import {getUserData} from '../../../utils/tokenFunctions';
 import {useDispatch} from 'react-redux'
 import {OrderActions} from '../../../redux/actions'
-import Loading from '../../../components/animations/loading'
+import Loading from '../../../components/animations/loading';
+import {states} from '../../../utils/states'
 export default function Tables() {
     const router = useHistory();
     const [tables, setTables] = useState([]) ;
@@ -15,7 +16,7 @@ export default function Tables() {
     const [loading, setLoading] = useState(false)
     const userData= getUserData();
     const dispatch = useDispatch();
-    const [reserved, setReserved] = useState(false)
+    const [reserved, setReserved] = useState(false);
     const getTable =(id, num)=>{
         setLoading(true)
         Api.put(`/api/mesa/${id}`,{estado: false})
@@ -44,8 +45,9 @@ export default function Tables() {
                 let userReserves= response.data.data
                 // uwu.length
                 if (userReserves.length>0) {
+                    console.log(userReserves)
                     let lastReserveState = userReserves[userReserves.length - 1]
-                    if (lastReserveState.estado==="reserva" || lastReserveState.estado==="pedido") {
+                    if (lastReserveState.estado !== states.finalizado) {
                         
                         setReserved(true)
                         dispatch({type: OrderActions.GET_TABLE, payload: { num: lastReserveState.mesa.numero, reserve: lastReserveState._id}})

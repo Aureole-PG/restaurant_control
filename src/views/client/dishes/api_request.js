@@ -1,6 +1,6 @@
 import Api from '../../../utils/ClientApi'
 import {getUserData} from '../../../utils/tokenFunctions';
-
+import {states} from '../../../utils/states'
 export async function submit(reservaId, data, total) {
     let submitData = {
         reserva: reservaId,
@@ -42,7 +42,7 @@ export async function submit(reservaId, data, total) {
 export async function initialData (){
     const userData= getUserData();
     let response 
-    let pageAccess = true
+    let pageAccess = false
 
     try {
         const reserve = await Api.get(`/api/reserva/usuario/${userData.id}`)
@@ -51,8 +51,8 @@ export async function initialData (){
         let lastReserveState
         if (userReserves.length>0) {
             lastReserveState = userReserves[userReserves.length - 1]
-            if (!lastReserveState.estado==="reserva" || lastReserveState.estado==="pedido") {
-                pageAccess= false
+            if (lastReserveState.estado === states.reserva) {
+                pageAccess= true
                 
             }
         }
