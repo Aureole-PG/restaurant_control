@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {BtnCard, SimpleCard} from '../../../components/cards/Cards';
 import {PrimaryBtn, SecondaryBtn} from '../../../components/Buttons/Buttons';
-import {Row, Col} from 'reactstrap';
+import {Row, Col, Button } from 'reactstrap';
 import {CenterText, H2}from './style';
 import {useHistory} from 'react-router-dom';
 import Api from '../../../utils/ClientApi';
@@ -20,7 +20,8 @@ export default function Tables() {
     const dispatch = useDispatch();
     const [reserved, setReserved] = useState(false);
     const [result, setResult] = useState(null);
-    const [activeCamera, setActiveCamera] = useState(false)
+    const [activeCamera, setActiveCamera] = useState(false);
+    const [cameraMode, setCameraMode] = useState(false)
     // const [qrError, setQrError] = useState(false)
     const getTable =(id, num)=>{
         setLoading(true)
@@ -58,9 +59,11 @@ export default function Tables() {
         console.error("error",err)
     }
     const handleActiveCamera =()=>{
-        setActiveCamera(!activeCamera)
+        setActiveCamera(!activeCamera);
     }
-
+    const changeCamera =()=>{
+        setCameraMode(!cameraMode);
+    }
     useEffect(() => {
         setLoading(true)
         Api.get('/api/mesa')
@@ -108,18 +111,27 @@ export default function Tables() {
     else{
         return (
             <div>
-                <div className="center-container">
+                
                     
-                {activeCamera?(<QrReader
-                    facingmode={'environment'}
-                    delay={10000}
-                    style={{height: 300, width: 300}}
-                    onError={(e)=>handleError(e)}
-                    onScan={(e)=>handleScan(e)}
-                />) :null
+                {activeCamera?(
+                    <div className="center-container">
+                        <div style={{display: 'grid'}}>
+                            <QrReader
+                                facingmode={!cameraMode?"environment":"user"}
+                                delay={1000}
+                                style={{height: 300, width: 300}}
+                                onError={(e)=>handleError(e)}
+                                onScan={(e)=>handleScan(e)}
+                            />
+                            <Button outline onClick={changeCamera} color="secondary">Cambiar cámara</Button>
+                        </div>
+                        
+
+                    </div>
+                ) :null
                 }
                 {/* <p>{result}</p> */}
-                </div>
+                
                 {result?(
                     <Row>
                         <Col md={6} xs={12} lg={4} style={{height: '300px', marginBottom: 15}}>
@@ -146,8 +158,8 @@ export default function Tables() {
                     </Row>
                 ):null}
                 {!result?(
-                    <BtnCard  onClick={handleActiveCamera} style={{marginBottom: 20}}>
-                        escanear código Qr     
+                    <BtnCard  onClick={handleActiveCamera} style={{margin: 20}}>
+                        {activeCamera?'Apagar cámara':'Escanear código Qr'}     
                     </BtnCard>
                 ):null
 
