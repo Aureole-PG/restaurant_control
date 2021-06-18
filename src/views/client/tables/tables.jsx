@@ -117,7 +117,8 @@ export default function Tables() {
                     <div className="center-container">
                         <div style={{display: 'grid'}}>
                             <QrReader
-                                facingmode={!cameraMode?"environment":"user"}
+                                // facingMode= "environment"
+                                facingmode={!cameraMode?"rear":"front"}
                                 delay={1000}
                                 style={{height: 300, width: 300}}
                                 onError={(e)=>handleError(e)}
@@ -158,7 +159,7 @@ export default function Tables() {
                     </Row>
                 ):null}
                 {!result?(
-                    <BtnCard  onClick={handleActiveCamera} style={{margin: 20}}>
+                    <BtnCard  onClick={handleActiveCamera} style={{marginTop: 20}}>
                         {activeCamera?'Apagar cámara':'Escanear código Qr'}     
                     </BtnCard>
                 ):null
