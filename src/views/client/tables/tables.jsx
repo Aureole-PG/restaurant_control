@@ -111,6 +111,7 @@ export default function Tables() {
                 <div className="center-container">
                     
                 {activeCamera?(<QrReader
+                    facingmode={'environment'}
                     delay={10000}
                     style={{height: 300, width: 300}}
                     onError={(e)=>handleError(e)}
