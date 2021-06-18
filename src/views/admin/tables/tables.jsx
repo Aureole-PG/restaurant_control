@@ -3,7 +3,7 @@ import {
     Card, Table, CardText, CardBody,Badge,
     CardTitle
   } from 'reactstrap';
-import { WaringBtn, PrimaryBtn} from '../../../components/Buttons/Buttons'
+import { PrimaryBtn} from '../../../components/Buttons/Buttons'
 import Api from '../../../utils/ClientApi';
 import {useHistory} from 'react-router-dom';
 export default function Tables() {
@@ -13,15 +13,19 @@ export default function Tables() {
     const createTables=()=>{
         history.push('/dashboard/tablesForm')
     }
-    const deleteMenu = (id)=>{
-        Api.delete(`/api/menu/${id}`).then(e=>{
-            setLoading(true)
-        })
+    const goToTable=(data)=>{
+        history.push('/dashboard/table',data)
     }
+    // const deleteMenu = (id)=>{
+    //     Api.delete(`/api/menu/${id}`).then(e=>{
+    //         setLoading(true)
+    //     })
+    // }
     
     useEffect(() => {
         Api.get('/api/mesa').then(data=>{
             setTables(data.data.data)
+            console.log(data.data.data)
             setLoading(false)
         })
         
@@ -58,9 +62,9 @@ export default function Tables() {
                                         <Badge color="danger">Ocupado</Badge>
                                     )}</td>
                                     <td>
-                                        {/* <SecondaryBtn>
-                                            Editar platos
-                                        </SecondaryBtn> */}
+                                        <PrimaryBtn onClick={()=>goToTable(table)}>
+                                            ver
+                                        </PrimaryBtn>
                                         -
                                         {/* <WaringBtn onClick={()=>deleteMenu(menu._id)}>
                                             Eliminar mesa

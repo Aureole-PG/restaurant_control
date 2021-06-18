@@ -11,6 +11,7 @@ let initialState = {
 
 let token = localStorage.getItem('token');
 if (token) {
+    console.log('prueba ',token)
     initialState = userData(token)
 };
 

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {BtnCard} from '../../../components/cards/Cards';
+import {BtnCard, SimpleCard} from '../../../components/cards/Cards';
+import {PrimaryBtn, SecondaryBtn} from '../../../components/Buttons/Buttons';
 import {Row, Col} from 'reactstrap';
 import {CenterText, H2}from './style';
 import {useHistory} from 'react-router-dom';
@@ -8,7 +9,8 @@ import {getUserData} from '../../../utils/tokenFunctions';
 import {useDispatch} from 'react-redux'
 import {OrderActions} from '../../../redux/actions'
 import Loading from '../../../components/animations/loading';
-import {states} from '../../../utils/states'
+import {states} from '../../../utils/states';
+import QrReader from 'react-qr-scanner';
 export default function Tables() {
     const router = useHistory();
     const [tables, setTables] = useState([]) ;
@@ -17,6 +19,9 @@ export default function Tables() {
     const userData= getUserData();
     const dispatch = useDispatch();
     const [reserved, setReserved] = useState(false);
+    const [result, setResult] = useState(null);
+    const [activeCamera, setActiveCamera] = useState(false)
+    // const [qrError, setQrError] = useState(false)
     const getTable =(id, num)=>{
         setLoading(true)
         Api.put(`/api/mesa/${id}`,{estado: false})
@@ -33,6 +38,28 @@ export default function Tables() {
             setError(true)
         })
     }
+    const handleScan=(data)=>{
+        if (data) {
+            if (data.text) {
+                try {
+                    const tableQr = JSON.parse(data.text) 
+                    let getTable = tables.find(e=> e._id === tableQr._id)
+                    setResult(getTable)
+                    handleActiveCamera()
+                } catch (error) {
+                    
+                }
+                    
+            }   
+        }
+        
+      }
+    const handleError=(err)=>{
+        console.error("error",err)
+    }
+    const handleActiveCamera =()=>{
+        setActiveCamera(!activeCamera)
+    }
 
     useEffect(() => {
         setLoading(true)
@@ -43,9 +70,7 @@ export default function Tables() {
             Api.get(`/api/reserva/usuario/${userData.id}`)
             .then(response=>{
                 let userReserves= response.data.data
-                // uwu.length
                 if (userReserves.length>0) {
-                    console.log(userReserves)
                     let lastReserveState = userReserves[userReserves.length - 1]
                     if (lastReserveState.estado !== states.finalizado) {
                         
@@ -82,13 +107,57 @@ export default function Tables() {
     }
     else{
         return (
-            <>
-                <Row style={{paddingBlock: '20px'}}>
+            <div>
+                <div className="center-container">
+                    
+                {activeCamera?(<QrReader
+                    delay={10000}
+                    style={{height: 300, width: 300}}
+                    onError={(e)=>handleError(e)}
+                    onScan={(e)=>handleScan(e)}
+                />) :null
+                }
+                {/* <p>{result}</p> */}
+                </div>
+                {result?(
+                    <Row>
+                        <Col md={6} xs={12} lg={4} style={{height: '300px', marginBottom: 15}}>
+
+                            <SimpleCard>
+                                {/* <CenterText> */}
+                                    {result.estado?(
+                                        <>
+                                        <H2>Mesa {result.numero}</H2>
+                                        <PrimaryBtn disabled={!result.estado} onClick={()=>getTable(result._id, result.numero)}>Elegir Mesa</PrimaryBtn>
+                                        {'   '}<SecondaryBtn onClick={handleActiveCamera}>{!activeCamera?'Elegir otra': 'Apagar camara'}</SecondaryBtn>
+                                        </>
+                                    ):(
+                                        <>
+                                            <H2>Mesa {result.numero}</H2>
+                                            <H2>Esta mesa esta Ocupada </H2>
+                                            <SecondaryBtn onClick={handleActiveCamera}>{!activeCamera?'Elegir otra': 'Apagar camara'}</SecondaryBtn>
+                                        </>
+                                    )}
+                                    
+                                {/* </CenterText> */}
+                            </SimpleCard>
+                        </Col>
+                    </Row>
+                ):null}
+                {!result?(
+                    <BtnCard  onClick={handleActiveCamera} style={{marginBottom: 20}}>
+                        escanear código Qr     
+                    </BtnCard>
+                ):null
+
+                }
+                    
+                {/* <Row style={{paddingBlock: '20px'}}>
                     <Col>
                         <h1>Elige un lugar para empezar... </h1>
                     </Col>
-                </Row>
-                <Row>
+                </Row> */}
+                {/* <Row>
                     {tables.map(table=>(
                         <Col key={table._id}  md={6} xs={12} lg={4} style={{height: '300px', marginBottom: 15}}>
                             <BtnCard disabled={!table.estado} onClick={()=>getTable(table._id, table.numero)}>
@@ -106,8 +175,8 @@ export default function Tables() {
                             </BtnCard>
                         </Col>
                     ))}
-                </Row>
-            </>
+                </Row> */}
+            </div>
         )
     }
     

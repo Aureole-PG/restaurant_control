@@ -6,7 +6,7 @@ import ClientDashboard from './components/dashboards/client/dahsboard'
 import WaiterDashboard from './components/dashboards/waiters/dashboard';
 import ChefDashboard from './components/dashboards/chef/dashboard';
 import AdminDashboard from './components/dashboards/admin/dashboard';
-import {useSelector} from 'react-redux'
+import {useSelector} from 'react-redux';
 
 
 export default function Routers() {

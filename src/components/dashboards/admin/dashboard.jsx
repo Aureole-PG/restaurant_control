@@ -32,7 +32,13 @@ const client=[
         path:'tablesForm',
         component: lazy(()=>import('../../../views/admin/tables/tablesForm'))
     },
+    {
+        exat:true,
+        path:'table',
+        component: lazy(()=>import('../../../views/admin/tables/viewTables'))
+    }
 ]
+
 
 
 export default function Routers() {

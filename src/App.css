@@ -10,3 +10,17 @@
   background: #b5b5b599; 
   border-radius: 5px;
 }
+.full-heigth{
+  height: 100vh;
+}
+
+.center-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-{
+  text-align: center;
+  margin-block: 20px;
+}

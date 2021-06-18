@@ -25,7 +25,7 @@ export default function ClientLayout({children}) {
   } 
   const toggle = () => setIsOpen(!isOpen);
     return (
-        <div>
+      <div className="full-heigth">
         <Navbar light style={{backgroundColor: '#e2e6f36b', boxShadow: '0px 0px 5px 0px'}} expand="md">
           <NavbarBrand tag={Link} to="/dashboard"> Restaurant </NavbarBrand>
           <NavbarToggler onClick={toggle} />
