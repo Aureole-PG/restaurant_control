@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useRef} from 'react';
 import {BtnCard, SimpleCard} from '../../../components/cards/Cards';
 import {PrimaryBtn, SecondaryBtn} from '../../../components/Buttons/Buttons';
 import {Row, Col, Button } from 'reactstrap';
@@ -10,7 +10,7 @@ import {useDispatch} from 'react-redux'
 import {OrderActions} from '../../../redux/actions'
 import Loading from '../../../components/animations/loading';
 import {states} from '../../../utils/states';
-import QrReader from 'react-qr-scanner';
+import QrReader from 'react-qr-reader';
 export default function Tables() {
     const router = useHistory();
     const [tables, setTables] = useState([]) ;
@@ -21,8 +21,12 @@ export default function Tables() {
     const [reserved, setReserved] = useState(false);
     const [result, setResult] = useState(null);
     const [activeCamera, setActiveCamera] = useState(false);
-    const [cameraMode, setCameraMode] = useState(false)
+    const [cameraMode, setCameraMode] = useState(false);
+    const qrReader = useRef(null);
     // const [qrError, setQrError] = useState(false)
+    const refPrint=()=>{
+        console.log(qrReader.current)
+    }
     const getTable =(id, num)=>{
         setLoading(true)
         Api.put(`/api/mesa/${id}`,{estado: false})
@@ -54,7 +58,11 @@ export default function Tables() {
             }   
         }
         
-      }
+    }
+    const choosedevice =(e, i)=>{
+        const data = e
+        console.log(e, i    )
+    }
     const handleError=(err)=>{
         console.error("error",err)
     }
@@ -117,14 +125,16 @@ export default function Tables() {
                     <div className="center-container">
                         <div style={{display: 'grid'}}>
                             <QrReader
-                                // facingMode= "environment"
-                                facingmode={!cameraMode?"rear":"front"}
+                                facingMode="enviroment"
+                                // constraints={{facingMode: 'rear'}}
+                                // choosedeviceid={choosedevice}
                                 delay={1000}
                                 style={{height: 300, width: 300}}
                                 onError={(e)=>handleError(e)}
                                 onScan={(e)=>handleScan(e)}
                             />
                             <Button outline onClick={changeCamera} color="secondary">Cambiar cámara</Button>
+                            <Button outline onClick={refPrint} color="secondary">ref</Button>
                         </div>
                         
 
