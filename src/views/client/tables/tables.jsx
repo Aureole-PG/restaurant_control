@@ -125,7 +125,7 @@ export default function Tables() {
                     <div className="center-container">
                         <div style={{display: 'grid'}}>
                             <QrReader
-                                facingMode="enviroment"
+                                facingMode={!cameraMode?"environment":"user"}
                                 // constraints={{facingMode: 'rear'}}
                                 // choosedeviceid={choosedevice}
                                 delay={1000}
@@ -134,7 +134,7 @@ export default function Tables() {
                                 onScan={(e)=>handleScan(e)}
                             />
                             <Button outline onClick={changeCamera} color="secondary">Cambiar cámara</Button>
-                            <Button outline onClick={refPrint} color="secondary">ref</Button>
+                            {/* <Button outline onClick={refPrint} color="secondary">ref</Button> */}
                         </div>
                         
 
