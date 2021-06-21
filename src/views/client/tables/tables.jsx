@@ -23,7 +23,6 @@ export default function Tables() {
     const [activeCamera, setActiveCamera] = useState(false);
     const [cameraMode, setCameraMode] = useState(false);
     const qrReader = useRef(null);
-    // const [qrError, setQrError] = useState(false)
     const refPrint=()=>{
         console.log(qrReader.current)
     }
@@ -45,24 +44,20 @@ export default function Tables() {
     }
     const handleScan=(data)=>{
         if (data) {
-            if (data.text) {
+
+            console.log(data)
                 try {
-                    const tableQr = JSON.parse(data.text) 
+                    const tableQr = JSON.parse(data) 
                     let getTable = tables.find(e=> e._id === tableQr._id)
                     setResult(getTable)
                     handleActiveCamera()
                 } catch (error) {
                     
-                }
-                    
-            }   
+                }  
         }
         
     }
-    const choosedevice =(e, i)=>{
-        const data = e
-        console.log(e, i    )
-    }
+
     const handleError=(err)=>{
         console.error("error",err)
     }
@@ -123,7 +118,7 @@ export default function Tables() {
                     
                 {activeCamera?(
                     <div className="center-container">
-                        <div style={{display: 'grid'}}>
+                        <div style={{display: 'grid', marginBottom: 10}}>
                             <QrReader
                                 facingMode={!cameraMode?"environment":"user"}
                                 // constraints={{facingMode: 'rear'}}
