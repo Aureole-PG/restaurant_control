@@ -64,6 +64,31 @@ export async function createMenu(data, dishes){
         }
     })
 }
+export async function editMenu(data, dishes){
+    let response
+    let sendData
+    try {
+        sendData={
+            ...data,
+            platos: dishes.map(e=> e._id)
+        }
+        const menu = await Api.put('/api/menu', sendData)
+        response={
+            menu: menu.data
+        }
+    } catch (error) {
+        response={
+            error: error
+        }
+    }
+    return new Promise((resolve,reject)=>{
+        if (response.error) {
+            reject(response)
+        } else {
+            resolve(response)
+        }
+    })
+}
 
 export function AddItems(userSelected , data) {
     const found = userSelected.find(element => element._id === data._id);
