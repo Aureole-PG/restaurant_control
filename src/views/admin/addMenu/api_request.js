@@ -38,6 +38,25 @@ export async function addDish(data){
         }
     })
 }
+export async function edidDish(data, id){
+    let response
+    try {
+        const dish = await Api.put(`/api/plato/${id}`, data)
+        
+        response ={
+            dish: dish.data
+        }
+    } catch (error) {
+        response={error:error}
+    }
+    return new Promise((resolve, reject)=>{
+        if (response.dish) {
+            resolve(response)
+        } else {
+            reject(response)
+        }
+    })
+}
 
 export async function createMenu(data, dishes){
     let response
@@ -64,7 +83,7 @@ export async function createMenu(data, dishes){
         }
     })
 }
-export async function editMenu(data, dishes){
+export async function editMenu(data, dishes, id){
     let response
     let sendData
     try {
@@ -72,7 +91,7 @@ export async function editMenu(data, dishes){
             ...data,
             platos: dishes.map(e=> e._id)
         }
-        const menu = await Api.put('/api/menu', sendData)
+        const menu = await Api.put(`/api/menu/${id}`, sendData)
         response={
             menu: menu.data
         }

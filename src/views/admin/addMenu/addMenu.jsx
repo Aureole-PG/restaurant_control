@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, Table, CardText, CardBody, CardTitle } from "reactstrap";
-import { WaringBtn, PrimaryBtn } from "../../../components/Buttons/Buttons";
+import { PrimaryBtn } from "../../../components/Buttons/Buttons";
 import Api from "../../../utils/ClientApi";
 import { useHistory } from "react-router-dom";
 export default function AddMenu() {
@@ -11,9 +11,6 @@ export default function AddMenu() {
     history.push("/dashboard/menuForm");
   };
   const goToMenu = (id) => {
-    // Api.delete(`/api/menu/${id}`).then((e) => {
-    //   setLoading(true);
-    // });
     history.push("/dashboard/menuForm", { id: id });
   };
 

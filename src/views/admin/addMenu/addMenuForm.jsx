@@ -7,10 +7,6 @@ import {
   Input,
   Row,
   Col,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   ListGroup,
   ListGroupItem,
   ListGroupItemHeading,
@@ -22,27 +18,25 @@ import {
   PrimaryBtn,
   WaringBtn,
 } from "../../../components/Buttons/Buttons";
-import {
-  formInitData,
-  addDish,
-  AddItems,
-  createMenu,
-  editMenu,
-} from "./api_request";
+import { formInitData, AddItems, createMenu, editMenu } from "./api_request";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
 import Api from "../../../utils/ClientApi";
 import Loading from "../../../components/animations/loading";
+import DishesForm from "./dihesForm";
 export default function AddMenuForm() {
   const [modal, setModal] = useState(false);
   const [platos, setPlatos] = useState([]);
   const history = useHistory();
   const [loading, setLoadig] = useState(true);
+  const [loadingDishes, setLoadigDishes] = useState(true);
   const [error, setError] = useState(false);
   const [newDish, setNewDish] = useState(false);
+  const [dish, setDish] = useState({});
   const [menuDishes, setMenuDishes] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
+  const [isEditDishes, setIsEditDishes] = useState(false);
   const [readOnly, setReadOnly] = useState(false);
   const [initialValues, setinitialValues] = useState({
     nombre: "",
@@ -54,7 +48,7 @@ export default function AddMenuForm() {
     enableReinitialize: true,
     onSubmit: (form) => {
       if (isEdit) {
-        editMenu(form, menuDishes).then(() => {
+        editMenu(form, menuDishes, history.location.state.id).then(() => {
           setLoadig(true);
         });
       } else {
@@ -68,29 +62,14 @@ export default function AddMenuForm() {
       }
     },
   });
-  const dishesFormik = useFormik({
-    initialValues: { nombre: "", descripcion: "" },
-    validationSchema: yup.object(disheSchema()),
-    onSubmit: (form) => {
-      addNewDish(form);
-    },
-  });
 
-  const toggle = () => setModal(!modal);
-  const addNewDish = (form) => {
-    setLoadig(true);
-    addDish(form)
-      .then((e) => {
-        setNewDish(true);
-        setModal(false);
-      })
-      .catch((e) => {
-        setModal(false);
-      });
+  const editdish = (plato) => {
+    setDish(plato);
+    setIsEditDishes(true);
+    toggle();
   };
-
+  const toggle = () => setModal(!modal);
   const addDishesToMenu = (data) => {
-    console.log(data);
     setMenuDishes(AddItems(menuDishes, data));
   };
   const deleteItem = (id) => {
@@ -118,9 +97,11 @@ export default function AddMenuForm() {
       .then((e) => {
         setPlatos(e.platos);
         setNewDish(false);
+        setLoadigDishes(false);
       })
       .catch(() => {
         setError(true);
+        setLoadigDishes(false);
         setNewDish(false);
       });
   }, [newDish]);
@@ -239,13 +220,24 @@ export default function AddMenuForm() {
         <>
           <Row>
             <Col xs={12} style={{ marginBlock: "10px" }}>
-              <SecondaryBtn type="button" onClick={toggle}>
+              <SecondaryBtn
+                type="button"
+                onClick={() => {
+                  toggle();
+                  setIsEditDishes(false);
+                }}
+              >
                 Crear nuevo plato
               </SecondaryBtn>{" "}
-              <AddDishesModal
+              <DishesForm
                 modal={modal}
+                data={dish}
+                setModal={setModal}
                 toggle={toggle}
-                formik={dishesFormik}
+                setNewDish={setNewDish}
+                setLoadig={setLoadigDishes}
+                loading={loadingDishes}
+                isedit={isEditDishes}
               />
             </Col>
           </Row>
@@ -257,18 +249,21 @@ export default function AddMenuForm() {
                 <Col
                   key={plato._id}
                   xs={6}
-                  md={4}
-                  lg={3}
+                  md={6}
+                  lg={4}
                   style={{ marginBlock: 10 }}
                 >
                   <ItemCard>
                     <h6>{plato.nombre}</h6>
                     <p>{plato.descripcion ?? "-"}</p>
-                    <SecondaryBtn
+                    <PrimaryBtn
                       type="button"
                       onClick={() => addDishesToMenu(plato)}
                     >
                       Agregar
+                    </PrimaryBtn>{" "}
+                    <SecondaryBtn type="button" onClick={() => editdish(plato)}>
+                      Editar
                     </SecondaryBtn>
                   </ItemCard>
                 </Col>
@@ -281,60 +276,9 @@ export default function AddMenuForm() {
   );
 }
 
-const AddDishesModal = ({ modal, toggle, formik, loading }) => (
-  <div>
-    <Modal isOpen={modal} toggle={toggle}>
-      <ModalHeader toggle={toggle}>Crear Plato</ModalHeader>
-      <Form onSubmit={formik.handleSubmit}>
-        <ModalBody>
-          <FormGroup>
-            <Label for="nombre">Nombre del Plato</Label>
-            <Input
-              type="text"
-              invalid={formik.errors.nombre ? true : false}
-              onChange={formik.handleChange}
-              name="nombre"
-              id="nombre"
-              placeholder="Ej: Seco de Pollo, Encebollado, Coca Cola, Jugo etc."
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="descripcion">Descripcion del plato</Label>
-            <Input
-              type="text"
-              invalid={formik.errors.descripcion ? true : false}
-              onChange={formik.handleChange}
-              name="descripcion"
-              id="descripcion"
-              placeholder="Ej: Arroz con pollo al jugo, Jugo de naranja etc."
-            />
-          </FormGroup>
-        </ModalBody>
-        <ModalFooter>
-          {loading ? null : (
-            <>
-              <PrimaryBtn type="submit">Crear</PrimaryBtn>{" "}
-              <SecondaryBtn type="button" onClick={toggle}>
-                Cancelar
-              </SecondaryBtn>
-            </>
-          )}
-        </ModalFooter>
-      </Form>
-    </Modal>
-  </div>
-);
-
 function menuSchema() {
   return {
     nombre: yup.string().required(true),
     precio: yup.number().required(true),
-  };
-}
-
-function disheSchema() {
-  return {
-    nombre: yup.string().required(true),
-    descripcion: yup.string().required(true),
   };
 }
