@@ -1,7 +1,8 @@
 import Routers from './routers';
 import { Body} from './style';
 import {Provider} from 'react-redux';
-import Store from './redux/store'
+import Store from './redux/store';
+import './styles/global.css';
 function App() {
   return (
     <Provider store={Store}>

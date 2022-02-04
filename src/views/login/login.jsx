@@ -126,7 +126,14 @@ const Login = () => {
                   Ingresar
                 </PrimaryBtn>
                 <SecondaryBtn disabled={loading} type="button" onClick={singIn}>
-                  Registrase
+                  Registrarse
+                </SecondaryBtn>
+                <SecondaryBtn
+                  disabled={loading}
+                  type="button"
+                  onClick={() => history.goBack()}
+                >
+                  Cancelar
                 </SecondaryBtn>
               </div>
             </Form>

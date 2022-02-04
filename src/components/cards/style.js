@@ -5,7 +5,7 @@ export const SCard = styled.div`
     padding-block: 30px;
     width: 100%;
     background-color: #ffffff6e;
-    border-radius: 25px;
+    border-radius: 5px;
     box-shadow: 0px 0px 20px 0px;
 `;
 export const ButtonCard = styled.button`

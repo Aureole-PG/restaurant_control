@@ -1,0 +1,121 @@
+.centerXY {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.no-margin {
+  margin: 0;
+}
+.no-padding {
+  padding: 1;
+}
+.glassform {
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.absolute-center-container {
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
+}
+
+.bg-image {
+  height: 100vh;
+  backgroundrepeat: no-repeat;
+  width: 100%;
+
+  background-size: cover;
+  /* filter: blur(8px); */
+}
+.custom-nav-container {
+  height: 100vh;
+  position: relative;
+  /* width: 100vw; */
+}
+
+@media (max-width: 764px) {
+  .bg-image {
+    height: 40vh;
+  }
+  .custom-nav-container {
+    height: 40vh;
+  }
+}
+/* SCHEDULE */
+.schedule-image {
+  box-sizing: border-box;
+  width: 100%;
+  height: 50vh;
+  backgroundrepeat: no-repeat;
+  background-size: cover;
+}
+
+/* FOOTER */
+.footer-container {
+  margin-top: 10;
+  padding: 10px;
+  background-image: linear-gradient(to right, #434343 0%, black 100%);
+  color: white;
+}
+
+/* Platos */
+.img-dish {
+  width: 100%;
+  border-radius: 50%;
+}
+.img-dish:hover {
+  border-radius: 1px;
+  transition: all 0.5s linear;
+}
+
+.title-dish {
+  font-weight: bold;
+  text-transform: capitalize;
+  text-decoration: dotted;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.281);
+}
+.dish-description {
+  font-style: italic;
+}
+.menu-button {
+  width: 100%;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.menu-button:hover {
+  background-color: rgb(5, 5, 5);
+  color: rgb(255, 255, 255);
+  transition: all 0.5s linear;
+}
+.menu-button-active {
+  background-color: black;
+  color: rgb(255, 255, 255);
+}
+
+.glassform-button {
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+/* BOTON DE LOGIN */
+
+.button-to-login {
+  /* background-color: blue; */
+  position: absolute;
+  z-index: 3;
+  bottom: 3rem;
+  right: 3rem;
+}
