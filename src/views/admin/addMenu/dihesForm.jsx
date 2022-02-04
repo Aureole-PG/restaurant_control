@@ -53,7 +53,6 @@ export default function DihesForm({
         setModal(false);
       });
   };
-  console.log(data);
   return (
     <Modal isOpen={modal} toggle={toggle}>
       <ModalHeader toggle={toggle}>Crear Plato</ModalHeader>

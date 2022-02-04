@@ -1,5 +1,5 @@
 import Api from '../../../utils/ClientApi';
-
+import ApiNOToken from '../../../utils/api'
 export async function formInitData(){
     let response
     try {
@@ -37,6 +37,15 @@ export async function addDish(data){
             reject(response)
         }
     })
+}
+export async function addImageDish(data,id){
+    const img = await ApiNOToken.post('/upload', data, { headers: {
+        'Content-Type': 'multipart/form-data'
+    }})
+    const dish = await Api.put(`/api/plato/${id}`, {imagen: img.data.location })
+    return {
+        dish: dish.data
+    }
 }
 export async function edidDish(data, id){
     let response

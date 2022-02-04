@@ -1,12 +1,16 @@
 import styled from 'styled-components';
 
 export const BtnPrimary= styled.button`
-    background-color: #f2e7c7;
-    border-radius: 5px;
-    border: 0px;
+    
     padding-inline: 25px;
     padding-block: 10px;
-    box-shadow: 0px 0px 2px 0px;
+
+    background: rgba( 255, 255, 255, 0.1 );
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 16px );
+-webkit-backdrop-filter: blur( 16px );
+border-radius: 5px;
+border: 1px solid rgba( 0, 0, 0, 0.58 );
     :active{
         box-shadow: 0px 0px 0px 0px;
     };

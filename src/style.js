@@ -11,7 +11,7 @@ background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
     background-repeat: no-repeat;
     /* width: 100%; */
     height: 100vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden ;
     z-index:-2;
 `;

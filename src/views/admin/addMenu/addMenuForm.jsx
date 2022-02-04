@@ -25,14 +25,17 @@ import { useHistory } from "react-router-dom";
 import Api from "../../../utils/ClientApi";
 import Loading from "../../../components/animations/loading";
 import DishesForm from "./dihesForm";
+import noimg from "../../../images/no-img.png";
+import DishesImageForm from "./addImage";
 export default function AddMenuForm() {
   const [modal, setModal] = useState(false);
+  const [modalImg, setModalImg] = useState(false);
   const [platos, setPlatos] = useState([]);
   const history = useHistory();
   const [loading, setLoadig] = useState(true);
   const [loadingDishes, setLoadigDishes] = useState(true);
   const [error, setError] = useState(false);
-  const [newDish, setNewDish] = useState(false);
+  const [newDish, setNewDish] = useState(true);
   const [dish, setDish] = useState({});
   const [menuDishes, setMenuDishes] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -56,9 +59,7 @@ export default function AddMenuForm() {
           .then((e) => {
             history.replace("/dashboard/menu");
           })
-          .catch((e) => {
-            console.log(e);
-          });
+          .catch(console.log);
       }
     },
   });
@@ -67,6 +68,10 @@ export default function AddMenuForm() {
     setDish(plato);
     setIsEditDishes(true);
     toggle();
+  };
+  const dishImg = (plato) => {
+    setDish(plato);
+    setModalImg(!modalImg);
   };
   const toggle = () => setModal(!modal);
   const addDishesToMenu = (data) => {
@@ -77,33 +82,38 @@ export default function AddMenuForm() {
     setMenuDishes(item);
   };
   useEffect(() => {
-    if (history.location.state) {
-      setIsEdit(true);
-      setReadOnly(true);
-      Api.get(`/api/menu/${history.location.state.id}`)
-        .then((data) => {
-          const { platos, nombre, precio } = data.data.data;
-          setinitialValues({ nombre: nombre, precio: precio });
-          setMenuDishes(platos);
-          setLoadig(false);
-        })
-        .catch(() => setError(true));
-    } else {
-      setLoadig(false);
+    if (loading) {
+      if (history.location.state) {
+        setIsEdit(true);
+        setReadOnly(true);
+        Api.get(`/api/menu/${history.location.state.id}`)
+          .then((data) => {
+            const { platos, nombre, precio } = data.data.data;
+            setinitialValues({ nombre: nombre, precio: precio });
+            setMenuDishes(platos);
+            setLoadig(false);
+          })
+          .catch(() => setError(true));
+      } else {
+        setLoadig(false);
+      }
     }
   }, [loading]);
   useEffect(() => {
-    formInitData()
-      .then((e) => {
-        setPlatos(e.platos);
-        setNewDish(false);
-        setLoadigDishes(false);
-      })
-      .catch(() => {
-        setError(true);
-        setLoadigDishes(false);
-        setNewDish(false);
-      });
+    if (newDish) {
+      formInitData()
+        .then((e) => {
+          console.log(e);
+          setPlatos(e.platos);
+          setNewDish(false);
+          setLoadigDishes(false);
+        })
+        .catch(() => {
+          setError(true);
+          setLoadigDishes(false);
+          setNewDish(false);
+        });
+    }
   }, [newDish]);
   if (loading) {
     return <Loading />;
@@ -239,6 +249,15 @@ export default function AddMenuForm() {
                 loading={loadingDishes}
                 isedit={isEditDishes}
               />
+              <DishesImageForm
+                modal={modalImg}
+                data={dish}
+                setModal={setModalImg}
+                toggle={setModalImg}
+                setNewDish={setNewDish}
+                setLoadig={setLoadigDishes}
+                loading={loadingDishes}
+              />
             </Col>
           </Row>
           <Row>
@@ -246,25 +265,48 @@ export default function AddMenuForm() {
               <div>cargando</div>
             ) : (
               platos.map((plato) => (
-                <Col
-                  key={plato._id}
-                  xs={6}
-                  md={6}
-                  lg={4}
-                  style={{ marginBlock: 10 }}
-                >
+                <Col key={plato._id} xs={12} md={6} style={{ marginBlock: 10 }}>
                   <ItemCard>
-                    <h6>{plato.nombre}</h6>
-                    <p>{plato.descripcion ?? "-"}</p>
-                    <PrimaryBtn
-                      type="button"
-                      onClick={() => addDishesToMenu(plato)}
-                    >
-                      Agregar
-                    </PrimaryBtn>{" "}
-                    <SecondaryBtn type="button" onClick={() => editdish(plato)}>
-                      Editar
-                    </SecondaryBtn>
+                    <Row>
+                      <Col xs={3}>
+                        <img
+                          src={
+                            plato.imagen
+                              ? process.env.REACT_APP_HOST_URL + plato.imagen
+                              : noimg
+                          }
+                          className="img-dish"
+                          alt=""
+                        />
+                      </Col>
+                      <Col xs={8}>
+                        <p className="no-margin title-dish text-capitalize">
+                          {plato.nombre}
+                        </p>
+                        <p className="dish-description ">{plato.descripcion}</p>
+                      </Col>
+                    </Row>
+
+                    <div className="d-flex justify-content-between">
+                      <PrimaryBtn
+                        type="button"
+                        onClick={() => addDishesToMenu(plato)}
+                      >
+                        Agregar
+                      </PrimaryBtn>{" "}
+                      <SecondaryBtn
+                        type="button"
+                        onClick={() => editdish(plato)}
+                      >
+                        Editar
+                      </SecondaryBtn>
+                      <SecondaryBtn
+                        type="button"
+                        onClick={() => dishImg(plato)}
+                      >
+                        {plato.imagen ? "Cambiar Imagen" : " Agregar Imagen"}
+                      </SecondaryBtn>
+                    </div>
                   </ItemCard>
                 </Col>
               ))

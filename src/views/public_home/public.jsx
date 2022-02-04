@@ -88,7 +88,13 @@ const ColapseDish = ({ nombre = "", precio = "", platos = [] }) => {
           <ItemCard>
             <Row>
               {platos.map((e) => (
-                <Col key={e._id} sm={12} md={6}>
+                <Col
+                  key={e._id}
+                  sm={12}
+                  md={6}
+                  className="img-container"
+                  style={{ marginBlock: 10 }}
+                >
                   <Row>
                     <Col xs={4}>
                       <img
