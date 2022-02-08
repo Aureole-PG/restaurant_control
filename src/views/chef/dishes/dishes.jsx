@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Col,
   Row,
@@ -12,19 +12,14 @@ import { SecondaryBtn, PrimaryBtn } from "../../../components/Buttons/Buttons";
 import { ItemCard } from "../../../components/cards/Cards";
 import Api from "../../../utils/ClientApi";
 import Loading from "../../../components/animations/loading";
-import { URL } from "../../../utils/api";
-import io from "socket.io-client";
-const connectSocketServer = () => {
-  const socket = io(URL, { transports: ["websocket"] });
-  return socket;
-};
+import { Context } from "../../../context/SocketContext";
 
 export default function Dishes() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [menus, setMenus] = useState([]);
   const [orders, setOrders] = useState([]);
   const [prepareDish, setPrepareDish] = useState(null);
-  const [socket] = useState(connectSocketServer());
+  const { socket } = useContext(Context);
   const [modalVisible, setModalVisible] = useState(false);
   const submit = () => {
     Api.put(`/api/reserva/${prepareDish.reserva._id}`, {
@@ -40,6 +35,7 @@ export default function Dishes() {
       let data = e.data.data.filter(
         (order) => order.reserva.estado === "pedido"
       );
+      console.log(e);
       let currentDish = data[0];
       setLoading(false);
       setOrders(data);
@@ -47,7 +43,9 @@ export default function Dishes() {
     });
   };
   useEffect(() => {
-    getPdidos();
+    if (loading) {
+      getPdidos();
+    }
   }, [loading]);
   useEffect(() => {
     Api.get("/api/menu").then((e) => {
@@ -137,7 +135,12 @@ export default function Dishes() {
         </Col>
       </Row>
       <div>
-        <Modal centered scrollable isOpen={modalVisible} toggle={modalVisible}>
+        <Modal
+          centered
+          scrollable
+          isOpen={modalVisible}
+          toggle={() => setModalVisible(!modalVisible)}
+        >
           <ModalHeader toggle={() => setModalVisible(!modalVisible)}>
             Menú
           </ModalHeader>

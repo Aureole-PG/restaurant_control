@@ -27,6 +27,7 @@ import Loading from "../../../components/animations/loading";
 import DishesForm from "./dihesForm";
 import noimg from "../../../images/no-img.png";
 import DishesImageForm from "./addImage";
+import Alert from "../../../components/alert/Alert";
 export default function AddMenuForm() {
   const [modal, setModal] = useState(false);
   const [modalImg, setModalImg] = useState(false);
@@ -45,6 +46,8 @@ export default function AddMenuForm() {
     nombre: "",
     precio: 0,
   });
+
+  const [alert, setAlert] = useState(false);
   const menuFormik = useFormik({
     initialValues: initialValues,
     validationSchema: yup.object(menuSchema()),
@@ -74,12 +77,27 @@ export default function AddMenuForm() {
     setModalImg(!modalImg);
   };
   const toggle = () => setModal(!modal);
+  const toggleAlert = () => setAlert(!alert);
+  const openAlert = (e) => {
+    const exist = menuDishes.filter((plato) => plato._id == e._id).length > 0;
+    console.log(exist);
+    if (!exist) {
+      setDish(e);
+      setAlert(true);
+    }
+  };
   const addDishesToMenu = (data) => {
     setMenuDishes(AddItems(menuDishes, data));
   };
   const deleteItem = (id) => {
     let item = menuDishes.filter((plato) => plato._id !== id);
     setMenuDishes(item);
+  };
+  const DeleteDish = () => {
+    setAlert(false);
+    Api.delete("/api/plato/" + dish._id).then((data) => {
+      setNewDish(true);
+    });
   };
   useEffect(() => {
     if (loading) {
@@ -103,23 +121,29 @@ export default function AddMenuForm() {
     if (newDish) {
       formInitData()
         .then((e) => {
-          console.log(e);
           setPlatos(e.platos);
-          setNewDish(false);
-          setLoadigDishes(false);
         })
         .catch(() => {
           setError(true);
-          setLoadigDishes(false);
+        })
+        .finally(() => {
           setNewDish(false);
+          setLoadigDishes(false);
         });
     }
   }, [newDish]);
+
   if (loading) {
     return <Loading />;
   }
   return (
     <>
+      <Alert
+        toggle={toggleAlert}
+        visible={alert}
+        data={dish.nombre}
+        accept={DeleteDish}
+      />
       <ItemCard style={{ marginTop: "15px" }}>
         {isEdit ? (
           <Row>
@@ -144,7 +168,7 @@ export default function AddMenuForm() {
             <Row>
               <Col>
                 <FormGroup>
-                  <Label for="nombre">Nombre del menu</Label>
+                  <Label for="nombre">Nombre del menú</Label>
                   <Input
                     type="text"
                     invalid={menuFormik.errors.nombre ? true : false}
@@ -184,9 +208,11 @@ export default function AddMenuForm() {
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
                         <ListGroupItemHeading>
-                          {dish.nombre}
+                          <p className="no-margin text-capitalize">
+                            {dish.nombre}
+                          </p>
                         </ListGroupItemHeading>
-                        <ListGroupItemText>
+                        <ListGroupItemText className="no-margin">
                           {dish.descripcion}
                         </ListGroupItemText>
                       </div>
@@ -265,7 +291,7 @@ export default function AddMenuForm() {
               <div>cargando</div>
             ) : (
               platos.map((plato) => (
-                <Col key={plato._id} xs={12} md={6} style={{ marginBlock: 10 }}>
+                <Col key={plato._id} xs={12} lg={6} style={{ marginBlock: 10 }}>
                   <ItemCard>
                     <Row>
                       <Col xs={3}>
@@ -286,26 +312,33 @@ export default function AddMenuForm() {
                         <p className="dish-description ">{plato.descripcion}</p>
                       </Col>
                     </Row>
-
-                    <div className="d-flex justify-content-between">
-                      <PrimaryBtn
-                        type="button"
-                        onClick={() => addDishesToMenu(plato)}
-                      >
-                        Agregar
-                      </PrimaryBtn>{" "}
-                      <SecondaryBtn
-                        type="button"
-                        onClick={() => editdish(plato)}
-                      >
-                        Editar
-                      </SecondaryBtn>
-                      <SecondaryBtn
-                        type="button"
-                        onClick={() => dishImg(plato)}
-                      >
-                        {plato.imagen ? "Cambiar Imagen" : " Agregar Imagen"}
-                      </SecondaryBtn>
+                    <div
+                      style={{ marginTop: 10 }}
+                      className="d-flex justify-content-between"
+                    >
+                      <div className="d-flex justify-content-around">
+                        <PrimaryBtn
+                          type="button"
+                          onClick={() => addDishesToMenu(plato)}
+                        >
+                          Agregar
+                        </PrimaryBtn>{" "}
+                        <SecondaryBtn
+                          type="button"
+                          onClick={() => editdish(plato)}
+                        >
+                          Editar
+                        </SecondaryBtn>
+                        <SecondaryBtn
+                          type="button"
+                          onClick={() => dishImg(plato)}
+                        >
+                          {plato.imagen ? "Cambiar Imagen" : " Agregar Imagen"}
+                        </SecondaryBtn>
+                      </div>
+                      <WaringBtn type="button" onClick={() => openAlert(plato)}>
+                        Eliminar
+                      </WaringBtn>
                     </div>
                   </ItemCard>
                 </Col>

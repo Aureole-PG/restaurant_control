@@ -50,8 +50,8 @@ export default function TablesForm() {
       <Row>
         <Col>
           <Alert color="info">
-            <div class="d-flex justify-content-between">
-              Mesa fue {isEdit ? "editada" : "creada"}Correctamente
+            <div className="d-flex justify-content-between">
+              Mesa fue {isEdit ? "editada" : "creada"} correctamente
               <SecondaryBtn type="button" onClick={goBack}>
                 Continuar
               </SecondaryBtn>
@@ -82,7 +82,7 @@ export default function TablesForm() {
         </Row>
         <Row style={{ marginBlock: "15px" }}>
           <Col xs={12} md={6} lg={4}>
-            <div class="d-flex justify-content-around">
+            <div className="d-flex justify-content-around">
               <PrimaryBtn type="submit">
                 {isEdit ? "Editar" : "Crear"}
               </PrimaryBtn>

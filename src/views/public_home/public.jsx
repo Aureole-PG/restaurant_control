@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Collapse, Row, Col } from "reactstrap";
 import { ItemCard } from "../../components/cards/Cards";
 import Api from "../../utils/api";
-import background from "../../images/comida1.jpg";
+import background from "../../images/dinner.jpg";
 import Schedule from "./Schedule";
 import Footer from "../../components/layout/footer/footer";
 import noimg from "../../images/no-img.png";
 import { SecondaryBtn } from "../../components/Buttons/Buttons";
 import { MdRestaurantMenu } from "react-icons/md";
 import { useHistory } from "react-router-dom";
-const Public_home = () => {
+const PublicHome = () => {
   const [menu, setMenu] = useState([]);
   const history = useHistory();
   useEffect(() => {
@@ -19,15 +19,15 @@ const Public_home = () => {
   }, []);
   return (
     <div className="">
-      <SecondaryBtn
-        className="button-to-login"
-        onClick={() => history.push("/login")}
-      >
-        <div className="d-flex justify-content-center align-items-center">
-          <MdRestaurantMenu size={30} style={{ marginRight: 10 }} />
-          <p className="no-margin fw-bold"> Ordenar Plato</p>
-        </div>
-      </SecondaryBtn>
+      <div className="button-to-login">
+        <SecondaryBtn onClick={() => history.push("/login")}>
+          <div className="d-flex justify-content-center align-items-center">
+            <MdRestaurantMenu size={30} style={{ marginRight: 10 }} />
+            <p className="no-margin fw-bold"> Ordenar Plato</p>
+          </div>
+        </SecondaryBtn>
+      </div>
+
       <Row>
         <Col>
           <div className="custom-nav-container">
@@ -42,7 +42,7 @@ const Public_home = () => {
         </Col>
       </Row>
 
-      <Row>
+      <Row style={{ marginTop: 40 }}>
         <Col>
           <div className="d-flex justify-content-center ">
             <div>
@@ -52,7 +52,7 @@ const Public_home = () => {
           </div>
         </Col>
       </Row>
-      <div className="container">
+      <div style={{ minHeight: 400 }} className="container">
         {menu.map((e) => (
           <ColapseDish
             key={e._id}
@@ -96,7 +96,7 @@ const ColapseDish = ({ nombre = "", precio = "", platos = [] }) => {
                   style={{ marginBlock: 10 }}
                 >
                   <Row>
-                    <Col xs={4}>
+                    <Col xs={3} md={4}>
                       <img
                         src={
                           e.imagen
@@ -107,9 +107,13 @@ const ColapseDish = ({ nombre = "", precio = "", platos = [] }) => {
                         alt=""
                       />
                     </Col>
-                    <Col xs={8}>
-                      <p className="no-margin title-dish">{e.nombre}</p>
-                      <p className="dish-description ">{e.descripcion}</p>
+                    <Col xs={9} md={8}>
+                      <p className="no-margin title-dish text-capitalize">
+                        {e.nombre}
+                      </p>
+                      <p className="dish-description text-capitalize">
+                        {e.descripcion}
+                      </p>
                     </Col>
                   </Row>
                 </Col>
@@ -122,4 +126,4 @@ const ColapseDish = ({ nombre = "", precio = "", platos = [] }) => {
   );
 };
 
-export default Public_home;
+export default PublicHome;

@@ -7,19 +7,11 @@ const Footer = () => {
     <div className="footer-container">
       <Row>
         <Col>
-          <h3 className="text-center">Ciudad</h3>
-          <p className="text-center no-margin">Direccion</p>
-          <p className="text-center ">contacto</p>
-        </Col>
-        <Col>
-          <h3 className="text-center">Ciudad</h3>
-          <p className="text-center no-margin">Direccion</p>
-          <p className="text-center ">contacto</p>
-        </Col>
-        <Col>
-          <h3 className="text-center">Ciudad</h3>
-          <p className="text-center no-margin">Direccion</p>
-          <p className="text-center ">contacto</p>
+          <h3 className="text-center">Quito - Ecuador</h3>
+          <p className="text-center no-margin">
+            Sebastian de Benalcazar y Jorge Icaza
+          </p>
+          <p className="text-center ">099999999</p>
         </Col>
       </Row>
       <Row>

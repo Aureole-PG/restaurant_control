@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ItemCard, BtnCard } from "../../../components/cards/Cards";
 import {
   Row,
@@ -18,13 +18,9 @@ import { submit, initialData, AddItems } from "./api_request";
 import { useHistory } from "react-router-dom";
 import { CenterText, H2 } from "../tables/style";
 import Loading from "../../../components/animations/loading";
-import { URL } from "../../../utils/api";
+import { Context } from "../../../context/SocketContext";
 import noimg from "../../../images/no-img.png";
-import io from "socket.io-client";
-const connectSocketServer = () => {
-  const socket = io(URL, { transports: ["websocket"] });
-  return socket;
-};
+
 export default function Dishes() {
   const [userSelected, setUserSelected] = useState([]);
   const [total, setTotal] = useState(0);
@@ -32,7 +28,7 @@ export default function Dishes() {
   const [loading, setLoadig] = useState(false);
   const [modal, setModal] = useState(false);
   const [access, setAccess] = useState(true);
-  const [socket] = useState(connectSocketServer());
+  const { socket } = useContext(Context);
   const reserveID = useSelector((state) => state.orderReducer.reserve);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -87,7 +83,7 @@ export default function Dishes() {
         <Col style={{ height: 300 }}>
           <BtnCard onClick={() => history.push("/dashboard/order")}>
             <CenterText>
-              <H2> ya estan procesando tu pedido</H2>
+              <H2> Ya estan procesando tu pedido</H2>
               <H2>Continuar</H2>
             </CenterText>
           </BtnCard>
@@ -106,7 +102,7 @@ export default function Dishes() {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} sm={12} md={3} lg={4}>
+          <Col xs={12} sm={12} md={5} lg={4}>
             <StikyContent>
               <SelectedItems data={userSelected} deleteItem={deleteItem} />
               <Row>
@@ -120,7 +116,7 @@ export default function Dishes() {
               </Row>
             </StikyContent>
           </Col>
-          <Col xs={12} sm={12} md={9} lg={8}>
+          <Col xs={12} sm={12} md={7} lg={8}>
             <Row>
               {menu.map((data) => (
                 <Col style={{ marginBlock: "5px" }} key={data._id} xs={12}>
@@ -128,7 +124,11 @@ export default function Dishes() {
                     <h5 className="text-capitalize">{data.nombre}</h5>
                     <MenuContent className={"scroll"}>
                       {data.platos.map((plato) => (
-                        <Col key={plato._id} sm={12}>
+                        <Col
+                          key={plato._id}
+                          style={{ marginBlock: 15 }}
+                          sm={12}
+                        >
                           <Row>
                             <Col xs={3}>
                               <img
@@ -155,7 +155,10 @@ export default function Dishes() {
                       ))}
                     </MenuContent>
 
-                    <div className="d-flex w-100 justify-content-between align-items-center">
+                    <div
+                      style={{ marginTop: 10 }}
+                      className="d-flex w-100 justify-content-between align-items-center"
+                    >
                       <SecondaryBtn onClick={() => selectItem(data)}>
                         Agregar
                       </SecondaryBtn>
@@ -175,7 +178,7 @@ export default function Dishes() {
               {userSelected.map((plato) => (
                 <Col key={plato._id} style={{ marginBlock: "5px" }} xs={12}>
                   <div className="d-flex w-100 justify-content-between align-items-center">
-                    <h6>{plato.nombre}</h6>
+                    <h6 className="text-capitalize">{plato.nombre}</h6>
                     <h6>{plato.cantidad}</h6>
                     <h5>$ {plato.total}</h5>
                   </div>
@@ -187,16 +190,16 @@ export default function Dishes() {
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button
+              <PrimaryBtn
                 color="primary"
                 disabled={userSelected.length === 0 ? true : false}
                 onClick={submit_order}
               >
                 Ordenar
-              </Button>{" "}
-              <Button color="secondary" onClick={toggle}>
+              </PrimaryBtn>{" "}
+              <SecondaryBtn color="secondary" onClick={toggle}>
                 Cancelar
-              </Button>
+              </SecondaryBtn>
             </ModalFooter>
           </Modal>
         </div>

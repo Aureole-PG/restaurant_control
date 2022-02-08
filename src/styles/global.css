@@ -136,6 +136,40 @@
   max-width: 300px;
   height: 200px;
 }
+
+/* DASHBOARD CARD */
+.flat-card {
+  height: 100%;
+  width: 100%;
+  background: rgba(114, 114, 114, 0.1);
+
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 5px;
+  border: 1px solid rgba(253, 253, 253);
+  align-items: center;
+  text-align: center;
+}
+.flat-card:hover {
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+.dashboard-col {
+  height: 200px;
+  padding-inline: 0;
+}
+
+/* LIST description */
+.list-description {
+  font-size: 11px;
+  font-style: oblique;
+}
+
+/* fonts size */
+
+.font-size {
+  font-size: 14px;
+}
+
 @media (max-width: 764px) {
   .bg-image {
     height: 40vh;
@@ -149,5 +183,14 @@
   .modal-img-old {
     width: 100px;
     height: 100px;
+  }
+}
+@media (max-width: 510px) {
+  .img-dish {
+    width: 50px;
+    height: 50px;
+  }
+  .font-size {
+    font-size: 9px;
   }
 }

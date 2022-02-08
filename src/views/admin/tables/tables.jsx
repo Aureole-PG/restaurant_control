@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Card, Table, CardText, CardBody, Badge, CardTitle } from "reactstrap";
-import { PrimaryBtn, SecondaryBtn } from "../../../components/Buttons/Buttons";
+import {
+  PrimaryBtn,
+  SecondaryBtn,
+  WaringBtn,
+} from "../../../components/Buttons/Buttons";
+import Alert from "../../../components/alert/Alert";
 import Api from "../../../utils/ClientApi";
 import { useHistory } from "react-router-dom";
+import { IoEnterOutline, IoTrashSharp } from "react-icons/io5";
+import { AiFillEdit } from "react-icons/ai";
 export default function Tables() {
   const [tables, setTables] = useState([]);
   const history = useHistory();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [alert, setAlert] = useState(false);
+  const [tableSelected, setTableSelected] = useState({});
   const createTables = () => {
     history.push("/dashboard/tablesForm");
   };
@@ -16,17 +25,38 @@ export default function Tables() {
   const goToTable = (data) => {
     history.push("/dashboard/table", data);
   };
-  useEffect(() => {
-    Api.get("/api/mesa").then((data) => {
-      setTables(data.data.data);
-      setLoading(false);
+  const toggle = () => setAlert(!alert);
+  const openAlert = (e) => {
+    if (e.estado) {
+      setTableSelected(e);
+      setAlert(true);
+    }
+  };
+  const DeleteTable = () => {
+    setAlert(false);
+    Api.delete("/api/mesa/" + tableSelected._id).then((data) => {
+      setLoading(true);
     });
+  };
+  useEffect(() => {
+    if (loading) {
+      Api.get("/api/mesa").then((data) => {
+        setTables(data.data.data);
+        setLoading(false);
+      });
+    }
   }, [loading]);
   return (
     <div>
       <Card>
+        <Alert
+          toggle={toggle}
+          visible={alert}
+          data={`Mesa ${tableSelected.numero}`}
+          accept={DeleteTable}
+        />
         <CardBody>
-          <CardTitle tag="h5">Menu</CardTitle>
+          <CardTitle tag="h5">Mesas</CardTitle>
           <CardText>Agrega o elimina</CardText>
           <PrimaryBtn onClick={createTables}>Agregar nuevo</PrimaryBtn>
         </CardBody>
@@ -54,11 +84,19 @@ export default function Tables() {
                   </td>
                   <td>
                     <PrimaryBtn onClick={() => goToTable(table)}>
-                      ver
-                    </PrimaryBtn>{" "}
-                    <SecondaryBtn onClick={() => editTables(table)}>
-                      Editar
-                    </SecondaryBtn>
+                      <IoEnterOutline /> ver
+                    </PrimaryBtn>
+                    {table.estado && (
+                      <>
+                        <SecondaryBtn onClick={() => editTables(table)}>
+                          <AiFillEdit /> Editar
+                        </SecondaryBtn>
+
+                        <WaringBtn onClick={() => openAlert(table)}>
+                          <IoTrashSharp /> Eliminar
+                        </WaringBtn>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}
