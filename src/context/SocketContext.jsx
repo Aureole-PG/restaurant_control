@@ -4,7 +4,7 @@ export const Context = createContext(null);
 
 const SocketCotext = ({ children }) => {
   const { socket, online } = useSocket({
-    serverPath: "https://tesis-restaurant-api.herokuapp.com",
+    serverPath: process.env.REACT_APP_SOCKET_URL,
   });
   useEffect(() => {
     console.log(online);

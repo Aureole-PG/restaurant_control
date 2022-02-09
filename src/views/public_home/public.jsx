@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Collapse, Row, Col } from "reactstrap";
 import { ItemCard } from "../../components/cards/Cards";
 import Api from "../../utils/api";
-import background from "../../images/dinner.jpg";
+import background from "../../images/restaurant.jpg";
 import Schedule from "./Schedule";
 import Footer from "../../components/layout/footer/footer";
 import noimg from "../../images/no-img.png";
