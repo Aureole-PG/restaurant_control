@@ -39,6 +39,11 @@ export default function ClientLayout({ children }) {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
+              <NavLink tag={Link} to="/">
+                Home Page
+              </NavLink>
+            </NavItem>
+            <NavItem>
               <NavLink tag={Link} to="/dashboard/order">
                 Tu orden
               </NavLink>

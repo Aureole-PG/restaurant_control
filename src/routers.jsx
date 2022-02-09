@@ -12,14 +12,14 @@ import WaiterDashboard from "./components/dashboards/waiters/dashboard";
 import ChefDashboard from "./components/dashboards/chef/dashboard";
 import AdminDashboard from "./components/dashboards/admin/dashboard";
 import { useSelector } from "react-redux";
-import Public_home from "./views/public_home/public";
+import PublicHome from "./views/public_home/public";
 
 export default function Routers() {
   return (
     <Router>
       <Switch>
         <Route path={"/"} exact={true}>
-          <Public_home />
+          <PublicHome />
         </Route>
         <Route path={"/login"} exact={true}>
           <Login />

@@ -20,6 +20,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../redux/actions";
 import jwt from "jsonwebtoken";
 import Loading from "../../components/animations/loading";
+import { AiTwotoneHome } from "react-icons/ai";
 const Login = () => {
   const location = useLocation();
   const isLoggedIn = useSelector((state) => state.authReducer.token);
@@ -66,6 +67,14 @@ const Login = () => {
 
   return (
     <Container>
+      <div className="button-to-login">
+        <SecondaryBtn onClick={() => history.push("/")}>
+          <div className="d-flex justify-content-center align-items-center">
+            <AiTwotoneHome size={30} style={{ marginRight: 10 }} />
+            <p className="no-margin fw-bold"> Home</p>
+          </div>
+        </SecondaryBtn>
+      </div>
       <Row>
         <Col lg={6} className="d-none d-xs-none d-sm-none d-md-none d-lg-block">
           <div
@@ -122,12 +131,18 @@ const Login = () => {
                 />
               </FormGroup>
               <div className="d-flex justify-content-between align-items-center">
-                <PrimaryBtn disabled={loading} type="submit">
-                  Ingresar
-                </PrimaryBtn>
-                <SecondaryBtn disabled={loading} type="button" onClick={singIn}>
-                  Registrarse
-                </SecondaryBtn>
+                <div className="d-flex justify content-center">
+                  <PrimaryBtn disabled={loading} type="submit">
+                    Ingresar
+                  </PrimaryBtn>
+                  <SecondaryBtn
+                    disabled={loading}
+                    type="button"
+                    onClick={singIn}
+                  >
+                    Registrarse
+                  </SecondaryBtn>
+                </div>
                 <SecondaryBtn
                   disabled={loading}
                   type="button"

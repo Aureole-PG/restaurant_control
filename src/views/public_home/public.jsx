@@ -9,9 +9,11 @@ import noimg from "../../images/no-img.png";
 import { SecondaryBtn } from "../../components/Buttons/Buttons";
 import { MdRestaurantMenu } from "react-icons/md";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 const PublicHome = () => {
   const [menu, setMenu] = useState([]);
   const history = useHistory();
+  const isLoggedIn = useSelector((state) => state.authReducer.token);
   useEffect(() => {
     Api.get("/api/menu").then((e) => {
       setMenu(e.data.data);
@@ -23,7 +25,9 @@ const PublicHome = () => {
         <SecondaryBtn onClick={() => history.push("/login")}>
           <div className="d-flex justify-content-center align-items-center">
             <MdRestaurantMenu size={30} style={{ marginRight: 10 }} />
-            <p className="no-margin fw-bold"> Ordenar Plato</p>
+            <p className="no-margin fw-bold">
+              {isLoggedIn ? "Dashboard" : "Ordenar Plato"}{" "}
+            </p>
           </div>
         </SecondaryBtn>
       </div>

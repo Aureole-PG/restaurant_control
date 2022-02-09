@@ -19,6 +19,7 @@ import { authActions } from "../../redux/actions";
 import jwt from "jsonwebtoken";
 import * as yup from "yup";
 import Api from "../../utils/api";
+import { AiTwotoneHome } from "react-icons/ai";
 export default function Singin() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -83,6 +84,14 @@ export default function Singin() {
 
   return (
     <Container>
+      <div className="button-to-login">
+        <SecondaryBtn onClick={() => history.push("/")}>
+          <div className="d-flex justify-content-center align-items-center">
+            <AiTwotoneHome size={30} style={{ marginRight: 10 }} />
+            <p className="no-margin fw-bold"> Home</p>
+          </div>
+        </SecondaryBtn>
+      </div>
       <Row
         style={{ height: "100vh" }}
         className={"justify-content-center align-items-center"}
