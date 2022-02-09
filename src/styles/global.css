@@ -33,7 +33,7 @@
   height: 100vh;
   backgroundrepeat: no-repeat;
   width: 100%;
-
+  background-position: center;
   background-size: cover;
   /* filter: blur(8px); */
 }

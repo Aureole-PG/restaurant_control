@@ -35,9 +35,9 @@ const PublicHome = () => {
               className="bg-image"
               style={{ backgroundImage: `url(${background})` }}
             />
-            <div className="absolute-center-container glassform">
+            {/* <div className="absolute-center-container glassform">
               <h1>RESTAURANTE</h1>
-            </div>
+            </div> */}
           </div>
         </Col>
       </Row>
