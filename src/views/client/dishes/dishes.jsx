@@ -3,7 +3,6 @@ import { ItemCard, BtnCard } from "../../../components/cards/Cards";
 import {
   Row,
   Col,
-  Button,
   Modal,
   ModalHeader,
   ModalBody,
@@ -116,55 +115,17 @@ export default function Dishes() {
               </Row>
             </StikyContent>
           </Col>
+
           <Col xs={12} sm={12} md={7} lg={8}>
             <Row>
-              {menu.map((data) => (
-                <Col style={{ marginBlock: "5px" }} key={data._id} xs={12}>
-                  <ItemCard>
-                    <h5 className="text-capitalize">{data.nombre}</h5>
-                    <MenuContent className={"scroll"}>
-                      {data.platos.map((plato) => (
-                        <Col
-                          key={plato._id}
-                          style={{ marginBlock: 15 }}
-                          sm={12}
-                        >
-                          <Row>
-                            <Col xs={3}>
-                              <img
-                                src={
-                                  plato.imagen
-                                    ? process.env.REACT_APP_HOST_URL +
-                                      plato.imagen
-                                    : noimg
-                                }
-                                className="img-dish"
-                                alt=""
-                              />
-                            </Col>
-                            <Col xs={8}>
-                              <p className="no-margin title-dish text-capitalize">
-                                {plato.nombre}
-                              </p>
-                              <p className="dish-description ">
-                                {plato.descripcion}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Col>
-                      ))}
-                    </MenuContent>
-
-                    <div
-                      style={{ marginTop: 10 }}
-                      className="d-flex w-100 justify-content-between align-items-center"
-                    >
-                      <SecondaryBtn onClick={() => selectItem(data)}>
-                        Agregar
-                      </SecondaryBtn>
-                      <h4>$ {data.precio}</h4>
-                    </div>
-                  </ItemCard>
+              {menu.map((e) => (
+                <Col
+                  style={{ marginBlock: "5px", height: "100%" }}
+                  xs={12}
+                  md={12}
+                  lg={6}
+                >
+                  <MenuCard key={e._id} dishData={e} selectItem={selectItem} />
                 </Col>
               ))}
             </Row>
@@ -207,6 +168,57 @@ export default function Dishes() {
     );
   }
 }
+
+const MenuCard = ({ dishData, selectItem }) => {
+  const [selected, setSelected] = useState(dishData.platos[0]);
+
+  return (
+    <div className="menu-card-container glassform">
+      <div className="d-flex justify-content-between" style={{ margin: 20 }}>
+        <h5 className="text-center  text-capitalize">{dishData.nombre}</h5>
+        <h5 className="text-center">$ {dishData.precio}</h5>
+      </div>
+
+      <div className="d-flex justify-content-center">
+        <img
+          className="menu-card-img"
+          src={
+            selected.imagen
+              ? process.env.REACT_APP_HOST_URL + selected.imagen
+              : noimg
+          }
+          alt=""
+        />
+      </div>
+      <div>
+        <h4 className="text-center  text-capitalize" style={{ margin: 20 }}>
+          {selected.nombre}
+        </h4>
+        <div className="d-flex justify-content-center ">
+          {dishData.platos.map((e) => (
+            <button
+              className={`menu-button-card${
+                selected._id === e._id ? "-active" : ""
+              } glassform`}
+              key={e._id}
+              onClick={() => setSelected(e)}
+            >
+              {" "}
+            </button>
+          ))}
+        </div>
+        <div className="dish-info-container">
+          <p className="text-center dish-description">{selected.descripcion}</p>
+        </div>
+      </div>
+      <div className="d-flex justify-content-center">
+        <SecondaryBtn onClick={() => selectItem(dishData)}>
+          Agregar
+        </SecondaryBtn>
+      </div>
+    </div>
+  );
+};
 
 const SelectedItems = ({ data, deleteItem }) => {
   return (

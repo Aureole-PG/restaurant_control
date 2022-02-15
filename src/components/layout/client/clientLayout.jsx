@@ -11,7 +11,6 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Container,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -59,7 +58,9 @@ export default function ClientLayout({ children }) {
           </Nav>
         </Collapse>
       </Navbar>
-      <Container style={{ paddingTop: 15 }}>{children}</Container>
+      <div className="container-fluid" style={{ paddingTop: 15 }}>
+        {children}
+      </div>
     </div>
   );
 }

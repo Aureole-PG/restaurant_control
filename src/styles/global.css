@@ -14,7 +14,7 @@
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 .absolute-center-container {
@@ -193,4 +193,45 @@
   .font-size {
     font-size: 9px;
   }
+}
+
+/* ___________------CARD IMAGE------____________ */
+
+.menu-card-container {
+  background-color: rgba(255, 255, 255, 0.363);
+  padding: 10px;
+  height: 100%;
+}
+.menu-card-img {
+  max-width: 50%;
+  max-height: 200px;
+  border-radius: 50%;
+  transition: all 0.5s linear;
+}
+.menu-card-img:hover {
+  border-radius: 1px;
+  transition: all 0.5s linear;
+}
+.menu-button-card {
+  margin-inline: 5px;
+  max-width: 100px;
+  overflow: hidden;
+  transition: all 0.5s linear;
+  font-size: 9px;
+  padding-block: 5px;
+}
+.menu-button-card:hover {
+  background-color: rgba(176, 193, 207, 0.712);
+}
+.menu-button-card-active {
+  transform: scale(1.5);
+  margin-inline: 15px;
+  padding-inline: 20px;
+  font-size: 10px;
+  z-index: 2;
+  transition: all 0.5s linear;
+}
+.dish-info-container {
+  border-top: 1px solid rgba(0, 0, 0, 0.521);
+  margin: 20px;
 }

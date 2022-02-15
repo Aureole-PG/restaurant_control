@@ -32,6 +32,6 @@ export const ItemC = styled.div`
     padding-block: 20px;
     width: 100%;
     background-color: #ffffff6b;
-    border-radius: 5px;
-    box-shadow: 0px 0px 6px 0px;
+    border-radius: 2px;
+    box-shadow: 0px 0px 3px 0px;
 `;
