@@ -71,7 +71,7 @@ export default function Tables() {
 
                 <CardText className="scroll" style={{ height: 70 }}>
                   {order.pedidos.map((dishes) => (
-                    <li key={dishes._id}>
+                    <li key={dishes._id} className="text-capitalize">
                       <b>{dishes.cantidad}</b> {dishes.menu.nombre}
                     </li>
                   ))}
@@ -86,7 +86,7 @@ export default function Tables() {
         ))}
         {!orders.length > 0 ? (
           <Col>
-            <h1>Sin mesas por despachar </h1>
+            <h1 className="text-white">Sin mesas por despachar </h1>
           </Col>
         ) : null}
         <DeliverModal

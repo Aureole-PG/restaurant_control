@@ -64,7 +64,7 @@ export default function Charge() {
                     key={dishes._id}
                     className="d-flex justify-content-between"
                   >
-                    <div>
+                    <div className="text-capitalize">
                       <b>{dishes.cantidad}</b> {dishes.menu.nombre}
                     </div>
                     <b>${dishes.cantidad * dishes.menu.precio}</b>
@@ -72,7 +72,7 @@ export default function Charge() {
                 ))}
               </div>
               <CardText>
-                total: <b> $ {order.total}</b>
+                Total: <b> $ {order.total}</b>
               </CardText>
             </div>
             <SecondaryBtn onClick={() => charge(order)}>Cobrar</SecondaryBtn>
@@ -81,7 +81,7 @@ export default function Charge() {
       ))}
       {!orders.length > 0 ? (
         <Col>
-          <h1>Sin mesas por cobrar </h1>
+          <h1 className="text-white">Sin mesas por cobrar </h1>
         </Col>
       ) : null}
       <ChargeModal
@@ -110,7 +110,7 @@ const ChargeModal = ({ submit, data, modal, toggle }) => (
                   key={dishes._id}
                   className="d-flex justify-content-between"
                 >
-                  <div>
+                  <div className="text-capitalize">
                     <b>{dishes.cantidad}</b> {dishes.menu.nombre}
                   </div>
                   <b>${dishes.cantidad * dishes.menu.precio}</b>

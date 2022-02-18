@@ -84,7 +84,7 @@ export default function Dishes() {
                       >
                         <div className="d-flex justify-content-between">
                           <b>{e.cantidad}</b>
-                          <div>{e.menu.nombre}</div>
+                          <div className="text-capitalize">{e.menu.nombre}</div>
                         </div>
                       </li>
                     ))}
@@ -117,11 +117,13 @@ export default function Dishes() {
             <ul className="list-group">
               {orders.map((order) => (
                 <div key={order._id}>
-                  <p> mesa {order.reserva.mesa.numero}</p>
+                  <p> Mesa {order.reserva.mesa.numero}</p>
                   {order.pedidos.map((pedido) => (
                     <li key={pedido._id} className="list-group-item">
                       <div className="d-flex justify-content-between">
-                        <div>{pedido.menu.nombre}</div>
+                        <div className="text-capitalize">
+                          {pedido.menu.nombre}
+                        </div>
                         <div>
                           <b>{pedido.cantidad}</b>
                         </div>
@@ -149,13 +151,15 @@ export default function Dishes() {
               {menus.map((data) => (
                 <Col key={data._id} xs={12} style={{ marginBlock: 10 }}>
                   <ItemCard>
-                    <CardTitle tag="h6">{data.nombre}</CardTitle>
+                    <CardTitle tag="h6" className="text-capitalize">
+                      {data.nombre}
+                    </CardTitle>
                     <div>
                       <ul className="list-group">
                         {data.platos.map((plato) => (
                           <li
                             key={plato._id}
-                            className="list-group-item"
+                            className="list-group-item text-capitalize"
                             style={{ backgroundColor: "#fff0" }}
                           >
                             {plato.nombre}

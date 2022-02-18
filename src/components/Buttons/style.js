@@ -5,7 +5,7 @@ export const BtnPrimary= styled.button`
     padding-inline: 20px;
     padding-block: 7px;
     margin-inline: 5px;
-    background: rgba( 255, 255, 255, 0.1 );
+    background: rgba( 255, 255, 255, 0.7 );
     box-shadow: 0 0px 10px 0 rgba( 31, 38, 135, 0.37 );
     backdrop-filter: blur( 16px );
     -webkit-backdrop-filter: blur( 16px );

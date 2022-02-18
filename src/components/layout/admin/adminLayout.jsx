@@ -28,7 +28,7 @@ export default function Layout({ children }) {
     <div>
       <Navbar
         light
-        style={{ backgroundColor: "#e2e6f36b", boxShadow: "0px 0px 5px 0px" }}
+        style={{ backgroundColor: "#e2e6f3", boxShadow: "0px 0px 5px 0px" }}
         expand="md"
       >
         <NavbarBrand tag={Link} to="/dashboard">
@@ -69,6 +69,10 @@ export default function Layout({ children }) {
           </Nav>
         </Collapse>
       </Navbar>
+      {/* <div
+        style={{ backgroundImage: `url(${img})` }}
+        className="dashboard-background-img"
+      ></div> */}
       <Container style={{ paddingTop: 15 }}>{children}</Container>
     </div>
   );

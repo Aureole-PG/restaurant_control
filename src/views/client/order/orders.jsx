@@ -57,12 +57,16 @@ export default function Orders() {
         <Row>
           {orderReady ? (
             <Col>
-              <h3 className="text-center">Tu orden esta ya esta Lista!</h3>
+              <h3 className="text-center text-white">
+                Tu orden esta ya esta Lista!
+              </h3>
             </Col>
           ) : (
             <Col>
-              <h3 className="text-center">Tu orden esta en Proceso</h3>
-              <small className="text-center">
+              <h3 className="text-center  text-white">
+                Tu orden esta en Proceso
+              </h3>
+              <small className="text-center  text-white">
                 Estamos llevando tu pedido al a mesa
               </small>
             </Col>
@@ -70,7 +74,7 @@ export default function Orders() {
         </Row>
         <Row>
           <Col>
-            <h4 className="text-center">Tu Orden </h4>
+            <h4 className="text-center  text-white">Tu Orden </h4>
           </Col>
         </Row>
         <Row>

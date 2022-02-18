@@ -13,7 +13,7 @@ import ChefDashboard from "./components/dashboards/chef/dashboard";
 import AdminDashboard from "./components/dashboards/admin/dashboard";
 import { useSelector } from "react-redux";
 import PublicHome from "./views/public_home/public";
-
+import img from "./images/restaurant.jpg";
 export default function Routers() {
   return (
     <Router>
@@ -28,6 +28,10 @@ export default function Routers() {
           <SingIn />
         </Route>
         <PrivateRoute path={"/dashboard"}>
+          <div
+            style={{ backgroundImage: `url(${img})` }}
+            className="dashboard-background-img"
+          ></div>
           <Dashboard />
         </PrivateRoute>
       </Switch>

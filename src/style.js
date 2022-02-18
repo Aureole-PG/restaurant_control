@@ -3,8 +3,8 @@ import Image from './images/background.jpg'
 
 
 export const Body= styled.div`
-box-sizing: border-box;
-background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+    box-sizing: border-box;
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
     /* background-image: url(${Image});//"url(" + image + ")"; */
     background-position: center;
     background-size: cover;

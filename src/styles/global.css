@@ -10,15 +10,15 @@
   padding: 1;
 }
 .glassform {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.5);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  /* -webkit-backdrop-filter: blur(10px); */
   border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 .absolute-center-container {
-  color: white;
+  /* color: white; */
   position: absolute;
   top: 50%;
   left: 50%;
@@ -143,10 +143,9 @@
   width: 100%;
   background: rgba(114, 114, 114, 0.1);
 
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(10px);
   border-radius: 5px;
-  border: 1px solid rgba(253, 253, 253);
+  border: 1px solid rgba(253, 253, 253, 0.466);
   align-items: center;
   text-align: center;
 }
@@ -198,7 +197,7 @@
 /* ___________------CARD IMAGE------____________ */
 
 .menu-card-container {
-  background-color: rgba(255, 255, 255, 0.363);
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 10px;
   height: 100%;
 }
@@ -234,4 +233,58 @@
 .dish-info-container {
   border-top: 1px solid rgba(0, 0, 0, 0.521);
   margin: 20px;
+}
+.dashboard-background-img {
+  z-index: 0;
+  /* height: calc(100vh - 56px); */
+  height: 100vh;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  /* filter: brightness(0.7); */
+}
+
+/* TEXT */
+.one h1 {
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+}
+h1 {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+.one h1:before {
+  width: 28px;
+  height: 5px;
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  margin-left: -14px;
+  background-color: #b80000;
+}
+.one h1:after {
+  width: 100px;
+  height: 1px;
+  display: block;
+  content: "";
+  position: relative;
+  margin-top: 25px;
+  left: 50%;
+  margin-left: -50px;
+  background-color: #b80000;
+}
+.text-white {
+  color: white;
+  text-shadow: 4px 4px #000000;
 }

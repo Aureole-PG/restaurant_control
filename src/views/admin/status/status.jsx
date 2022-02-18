@@ -13,7 +13,9 @@ export default function GeneralStatus() {
       <Row>
         <Col className="dashboard-col">
           <CenterText>
-            <h1>Menu de Administrador</h1>
+            <div class="one">
+              <h1 className=" text-white">Menu de Administrador</h1>
+            </div>
           </CenterText>
         </Col>
       </Row>
@@ -24,8 +26,8 @@ export default function GeneralStatus() {
             className="flat-card"
           >
             <CenterText>
-              <MdRestaurantMenu size={size} />
-              <h2>Menu</h2>
+              <MdRestaurantMenu size={size} className=" text-white" />
+              <h2 className=" text-white">Menu</h2>
             </CenterText>
           </button>
         </Col>
@@ -35,8 +37,8 @@ export default function GeneralStatus() {
             onClick={() => history.push("/dashboard/users")}
           >
             <CenterText>
-              <FiUsers size={size} />
-              <h2>Usuarios</h2>
+              <FiUsers className=" text-white" size={size} />
+              <h2 className=" text-white">Usuarios</h2>
             </CenterText>
           </button>
         </Col>
@@ -46,8 +48,8 @@ export default function GeneralStatus() {
             className="flat-card"
           >
             <CenterText>
-              <SiAirtable size={size} />
-              <h2>Mesas</h2>
+              <SiAirtable className=" text-white" size={size} />
+              <h2 className=" text-white">Mesas</h2>
             </CenterText>
           </button>
         </Col>

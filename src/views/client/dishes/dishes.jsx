@@ -97,7 +97,7 @@ export default function Dishes() {
       <>
         <Row>
           <Col>
-            <h2 className="text-center">Elige Tus Platos</h2>
+            <h2 className="text-center text-white">Elige Tus Platos</h2>
           </Col>
         </Row>
         <Row>
