@@ -83,11 +83,11 @@ const Login = () => {
           >
             <div>
               <Blinking>
-                <h1>Restaurant</h1>
+                <h1 className="text-white">Restaurant</h1>
               </Blinking>
 
               <Blinking>
-                <h3>Disfruta tu estadia</h3>
+                <h3 className="text-white">Disfruta tu estadia</h3>
               </Blinking>
             </div>
           </div>

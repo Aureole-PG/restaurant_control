@@ -4,7 +4,7 @@ export const SCard = styled.div`
     padding-inline: 25px;
     padding-block: 30px;
     width: 100%;
-    background-color: #ffffff6e;
+    background-color: #ffffffd1;
     border-radius: 5px;
     box-shadow: 0px 0px 5px 0px;
 `;

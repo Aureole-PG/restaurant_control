@@ -14,6 +14,7 @@ import AdminDashboard from "./components/dashboards/admin/dashboard";
 import { useSelector } from "react-redux";
 import PublicHome from "./views/public_home/public";
 import img from "./images/restaurant.jpg";
+import img2 from "./images/img-login.jpg";
 export default function Routers() {
   return (
     <Router>
@@ -22,9 +23,17 @@ export default function Routers() {
           <PublicHome />
         </Route>
         <Route path={"/login"} exact={true}>
+          <div
+            style={{ backgroundImage: `url(${img2})` }}
+            className="dashboard-background-img"
+          ></div>
           <Login />
         </Route>
         <Route path={"/singIn"} exact={true}>
+          <div
+            style={{ backgroundImage: `url(${img2})` }}
+            className="dashboard-background-img"
+          ></div>
           <SingIn />
         </Route>
         <PrivateRoute path={"/dashboard"}>
