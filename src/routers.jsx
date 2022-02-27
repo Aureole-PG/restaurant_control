@@ -71,7 +71,7 @@ function PrivateRoute({ children, ...rest }) {
 
 function Dashboard() {
   const rol = useSelector((state) => state.authReducer.rol);
-  console.log(rol.toLowerCase());
+
   if (rol.toLowerCase() === "cliente") {
     return <ClientDashboard />;
   }

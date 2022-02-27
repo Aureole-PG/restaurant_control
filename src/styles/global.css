@@ -288,3 +288,10 @@ h1 {
   color: white;
   text-shadow: 4px 4px #000000;
 }
+
+.icon-link:link {
+  color: white;
+}
+.icon-link:visited {
+  color: white;
+}

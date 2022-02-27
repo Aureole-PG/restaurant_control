@@ -35,7 +35,7 @@ export default function Dishes() {
       let data = e.data.data.filter(
         (order) => order.reserva.estado === "pedido"
       );
-      console.log(e);
+
       let currentDish = data[0];
       setLoading(false);
       setOrders(data);

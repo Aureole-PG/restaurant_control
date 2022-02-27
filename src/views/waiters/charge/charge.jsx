@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Col,
   Row,
@@ -15,11 +15,16 @@ import { SecondaryBtn, PrimaryBtn } from "../../../components/Buttons/Buttons";
 import Loading from "../../../components/animations/loading";
 import Api from "../../../utils/ClientApi";
 import { submitCharge } from "./api_request";
+import { Context } from "../../../context/SocketContext";
+import { CenterText } from "../../client/tables/style";
+import { useHistory } from "react-router-dom";
 export default function Charge() {
+  const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
   const [chargeData, setChargeData] = useState(null);
   const [modal, setModal] = useState(false);
+  const { socket } = useContext(Context);
   const toggle = () => setModal(!modal);
 
   const charge = (data) => {
@@ -30,6 +35,7 @@ export default function Charge() {
   const submit = () => {
     submitCharge(chargeData.reserva.mesa._id, chargeData.reserva._id).then(
       () => {
+        socket.emit("cocinero-mesero");
         setModal(false);
         setLoading(true);
       }
@@ -80,8 +86,16 @@ export default function Charge() {
         </Col>
       ))}
       {!orders.length > 0 ? (
-        <Col>
-          <h1 className="text-white">Sin mesas por cobrar </h1>
+        <Col md={6} xs={12} lg={6} className="dashboard-col">
+          <button
+            onClick={() => history.push("/dashboard/")}
+            className="flat-card"
+          >
+            <CenterText>
+              <h2 className="text-white">Sin mesas por cobrar </h2>
+              <small className="text-white">Aceptar</small>
+            </CenterText>
+          </button>
         </Col>
       ) : null}
       <ChargeModal

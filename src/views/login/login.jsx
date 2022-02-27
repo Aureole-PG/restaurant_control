@@ -71,7 +71,7 @@ const Login = () => {
         <SecondaryBtn onClick={() => history.push("/")}>
           <div className="d-flex justify-content-center align-items-center">
             <AiTwotoneHome size={30} style={{ marginRight: 10 }} />
-            <p className="no-margin fw-bold"> Home</p>
+            <p className="no-margin fw-bold"> Página Principal</p>
           </div>
         </SecondaryBtn>
       </div>

@@ -6,6 +6,11 @@ const client = [
   {
     path: "",
     exact: true,
+    component: lazy(() => import("../../../views/waiters/status")),
+  },
+  {
+    path: "tables",
+    exact: true,
     component: lazy(() => import("../../../views/waiters/tables")),
   },
   {

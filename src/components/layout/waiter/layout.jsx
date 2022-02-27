@@ -40,11 +40,11 @@ export default function ClientLayout({ children }) {
           <Nav className="mr-auto" navbar>
             <NavItem>
               <NavLink tag={Link} to="/">
-                Home Page
+                Página Principal
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={Link} to="/dashboard">
+              <NavLink tag={Link} to="/dashboard/tables">
                 Entregar
               </NavLink>
             </NavItem>

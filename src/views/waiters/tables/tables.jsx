@@ -14,8 +14,10 @@ import { SecondaryBtn, PrimaryBtn } from "../../../components/Buttons/Buttons";
 import Loading from "../../../components/animations/loading";
 import Api from "../../../utils/ClientApi";
 import { Context } from "../../../context/SocketContext";
-
+import { CenterText } from "../../client/tables/style";
+import { useHistory } from "react-router-dom";
 export default function Tables() {
+  const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
   const [deliveData, setDeliveData] = useState(null);
@@ -29,7 +31,6 @@ export default function Tables() {
   };
 
   const submit = () => {
-    console.log("uwu");
     Api.put(`/api/reserva/${deliveData?.reserva?._id}`, { estado: "entregado" })
       .then((e) => {
         setModal(false);
@@ -86,7 +87,17 @@ export default function Tables() {
         ))}
         {!orders.length > 0 ? (
           <Col>
-            <h1 className="text-white">Sin mesas por despachar </h1>
+            <Col md={6} xs={12} lg={6} className="dashboard-col">
+              <button
+                onClick={() => history.push("/dashboard/")}
+                className="flat-card"
+              >
+                <CenterText>
+                  <h2 className="text-white">Sin mesas por despachar </h2>
+                  <small className="text-white">Aceptar</small>
+                </CenterText>
+              </button>
+            </Col>
           </Col>
         ) : null}
         <DeliverModal

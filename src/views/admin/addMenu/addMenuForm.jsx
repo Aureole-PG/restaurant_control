@@ -80,7 +80,7 @@ export default function AddMenuForm() {
   const toggleAlert = () => setAlert(!alert);
   const openAlert = (e) => {
     const exist = menuDishes.filter((plato) => plato._id == e._id).length > 0;
-    console.log(exist);
+
     if (!exist) {
       setDish(e);
       setAlert(true);

@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import { states } from "../../../utils/states";
 import noimg from "../../../images/no-img.png";
 import { Context } from "../../../context/SocketContext";
+import Loading from "../../../components/animations/loading";
 export default function Orders() {
   const [pedido, setPedido] = useState([]);
   const selector = useSelector((state) => state.orderReducer);
@@ -30,7 +31,6 @@ export default function Orders() {
             setOrderready(true);
           }
         }
-        console.log(order);
         setLoading(false);
       })
       .catch(() => {
@@ -50,7 +50,7 @@ export default function Orders() {
   }, [loading]);
 
   if (loading) {
-    return <>sas</>;
+    return <Loading />;
   } else {
     return (
       <>
@@ -148,7 +148,7 @@ export default function Orders() {
               ) : (
                 <ItemCard>
                   <div className="d-flex w-100 justify-content-between align-items-center">
-                    <h4>Todavia no tienes un pedido</h4>
+                    <h4>Gracias por su visita!</h4>
                   </div>
                   <div className="d-flex w-100 justify-content-between align-items-center">
                     <SecondaryBtn onClick={() => history.goBack()}>

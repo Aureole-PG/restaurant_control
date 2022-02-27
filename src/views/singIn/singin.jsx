@@ -20,6 +20,7 @@ import jwt from "jsonwebtoken";
 import * as yup from "yup";
 import Api from "../../utils/api";
 import { AiTwotoneHome } from "react-icons/ai";
+import img from "../../images/bienvenido.png";
 export default function Singin() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ export default function Singin() {
   const isLoggedIn = useSelector((state) => state.authReducer.token);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [newUser, setNewUser] = useState(false);
   const [redirectTo, setRedirectTo] = useState(false);
   const back = () => history.goBack();
   const formik = useFormik({
@@ -46,6 +48,8 @@ export default function Singin() {
     setLoading(true);
     Api.post("api/usuario", data)
       .then((e) => {
+        setLoading(false);
+        setNewUser(true);
         Api.post("api/usuario/login", {
           correo: data.correo,
           password: data.password,
@@ -55,14 +59,18 @@ export default function Singin() {
               ...jwt.decode(response.data.token).usuario,
               token: response.data.token,
             };
-            dispatch({ type: authActions.LOGIN_SUCCESS, payload: userData });
+            setTimeout(() => {
+              dispatch({ type: authActions.LOGIN_SUCCESS, payload: userData });
+            }, 2000);
           })
           .catch((e) => {
             setError(true);
             setLoading(false);
+            setNewUser(false);
           });
       })
       .catch((e) => {
+        console.log(e);
         setError(true);
         setLoading(false);
       });
@@ -81,6 +89,20 @@ export default function Singin() {
   if (loading) {
     return <Loading />;
   }
+  if (newUser) {
+    return (
+      <Container>
+        <Row
+          style={{ height: "100vh" }}
+          className={"justify-content-center align-items-center"}
+        >
+          <Col xs={12} md={8} lg={6}>
+            <img className="img-fluid" src={img} alt="" />
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -88,7 +110,7 @@ export default function Singin() {
         <SecondaryBtn onClick={() => history.push("/")}>
           <div className="d-flex justify-content-center align-items-center">
             <AiTwotoneHome size={30} style={{ marginRight: 10 }} />
-            <p className="no-margin fw-bold"> Home</p>
+            <p className="no-margin fw-bold"> Página Principal</p>
           </div>
         </SecondaryBtn>
       </div>
@@ -104,7 +126,7 @@ export default function Singin() {
               isOpen={error}
               toggle={() => setError(false)}
             >
-              Correo o Contraseña Incorrectos
+              Usuario ya existe
             </UncontrolledAlert>
             <Form onSubmit={formik.handleSubmit}>
               <FormGroup>

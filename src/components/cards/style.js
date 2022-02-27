@@ -18,7 +18,7 @@ export const ButtonCard = styled.button`
     border-radius: 3px;
     /* background-color: #99b8ff3d; */
     backdrop-filter: blur(4px);
-    background: rgba(114, 114, 114, 0.1);
+    background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(253, 253, 253);
     width: 100%;
     height: 100%;

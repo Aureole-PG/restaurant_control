@@ -40,7 +40,7 @@ export default function Layout({ children }) {
           <Nav className="mr-auto" navbar>
             <NavItem>
               <NavLink tag={Link} to="/">
-                Home Page
+                Página Principal
               </NavLink>
             </NavItem>
             <NavItem>

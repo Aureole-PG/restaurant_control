@@ -17,18 +17,25 @@ const Footer = () => {
       <Row>
         <Col>
           <div className="d-flex justify-content-center aling-items-center">
-            <BsFacebook
+            {/* <BsFacebook
               size={iconSize}
               style={{ margin: 10, cursor: "pointer" }}
             />
             <BsInstagram
               size={iconSize}
               style={{ margin: 10, cursor: "pointer" }}
-            />
-            <BsWhatsapp
-              size={iconSize}
-              style={{ margin: 10, cursor: "pointer" }}
-            />
+            /> */}
+            <a
+              href="https://wa.me/593987210707"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="icon-link"
+            >
+              <BsWhatsapp
+                size={iconSize}
+                style={{ margin: 10, cursor: "pointer" }}
+              />
+            </a>
           </div>
         </Col>
       </Row>

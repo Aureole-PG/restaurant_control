@@ -26,7 +26,7 @@ const PublicHome = () => {
           <div className="d-flex justify-content-center align-items-center">
             <MdRestaurantMenu size={30} style={{ marginRight: 10 }} />
             <p className="no-margin fw-bold">
-              {isLoggedIn ? "Dashboard" : "Ordenar Plato"}{" "}
+              {isLoggedIn ? "Dashboard" : "Pide ya!"}{" "}
             </p>
           </div>
         </SecondaryBtn>
