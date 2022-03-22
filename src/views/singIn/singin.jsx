@@ -175,7 +175,7 @@ export default function Singin() {
               </FormGroup>
               <div className="d-flex justify-content-between align-items-center">
                 <PrimaryBtn disabled={loading} type="submit">
-                  Registrase
+                  Registrarse
                 </PrimaryBtn>
                 <SecondaryBtn disabled={loading} type="button" onClick={back}>
                   Cancelar
